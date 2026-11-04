@@ -10,7 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
         tailwind.config = {
-            theme: { extend: { colors: { darkbg: '#121212', cardbg: '#1e1e1e' } } }
+            theme: { extend: { colors: { darkbg: '#0f0f11', cardbg: '#18181b', accentred: '#f43f5e' } } }
         }
     </script>
     <style>
@@ -24,57 +24,65 @@
         }
     </style>
 </head>
-<body class="bg-darkbg text-gray-200 font-sans antialiased min-h-screen">
+<body class="bg-darkbg text-gray-100 font-sans antialiased min-h-screen selection:bg-rose-500 selection:text-white">
 
-    <!-- ================= 1. VIEW PELANGGAN ================= -->
-    <div id="view-customer" class="hidden pb-28">
-        <header class="bg-cardbg border-b border-gray-800 sticky top-0 z-50">
+    <!-- ================= 1. VIEW PELANGGAN (REVAMPED & STYLISH) ================= -->
+    <div id="view-customer" class="hidden pb-32">
+        <!-- Header Sticky Mewah -->
+        <header class="bg-cardbg/90 backdrop-blur-md border-b border-gray-800/80 sticky top-0 z-50 shadow-xl">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-full bg-rose-600 text-white flex items-center justify-center font-bold text-xl shadow-lg">B</div>
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-rose-600 to-amber-500 text-white flex items-center justify-center font-black text-2xl shadow-lg shadow-rose-600/30">🔥</div>
                     <div>
-                        <h1 class="font-black text-white text-base tracking-wide uppercase">Bakso Bakar Jumbo</h1>
-                        <div class="flex items-center text-xs font-bold text-rose-500 bg-rose-500/10 px-2.5 py-1 rounded-full w-fit mt-1 border border-rose-500/20">
-                            <i class="fa-solid fa-location-dot mr-1.5"></i> <span id="display-meja">Scan QR Meja</span>
+                        <h1 class="font-black text-white text-lg tracking-wider uppercase bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">Bakso Bakar Jumbo</h1>
+                        <div class="flex items-center text-xs font-bold text-rose-400 bg-rose-500/10 px-3 py-1 rounded-full w-fit mt-1 border border-rose-500/20 shadow-inner">
+                            <i class="fa-solid fa-fire mr-1.5 animate-pulse text-rose-500"></i> <span id="display-meja">Scan QR Meja</span>
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center space-x-2 w-full sm:w-auto">
-                    <input type="text" id="search-customer-menu" placeholder="Cari menu favorit..." oninput="renderCustomerMenu()" class="bg-darkbg border border-gray-700 text-xs text-white px-3 py-2 rounded-full outline-none w-full sm:w-48 focus:border-rose-500">
+                <div class="relative w-full sm:w-64">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-400">
+                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                    </span>
+                    <input type="text" id="search-customer-menu" placeholder="Cari menu bakso & minuman..." oninput="renderCustomerMenu()" class="w-full bg-darkbg border border-gray-800 text-xs text-white pl-10 pr-4 py-2.5 rounded-xl outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 transition shadow-inner">
                 </div>
             </div>
+            <!-- Kategori Tab Berwarna -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-3">
-                <div id="customer-kategori-tabs" class="flex space-x-2 overflow-x-auto no-scrollbar">
-                    <button onclick="filterKategoriPelanggan('Semua')" class="px-4 py-1.5 bg-rose-600 text-white text-xs font-bold rounded-full whitespace-nowrap shadow-md">Semua Menu</button>
-                    <button onclick="filterKategoriPelanggan('Bakso Bakar')" class="px-4 py-1.5 bg-gray-800 text-gray-400 text-xs font-bold rounded-full whitespace-nowrap border border-gray-700">🔥 Bakso Bakar</button>
-                    <button onclick="filterKategoriPelanggan('Minuman')" class="px-4 py-1.5 bg-gray-800 text-gray-400 text-xs font-bold rounded-full whitespace-nowrap border border-gray-700">🥤 Minuman</button>
-                    <button onclick="filterKategoriPelanggan('Extra')" class="px-4 py-1.5 bg-gray-800 text-gray-400 text-xs font-bold rounded-full whitespace-nowrap border border-gray-700">🍟 Extra</button>
+                <div id="customer-kategori-tabs" class="flex space-x-2 overflow-x-auto no-scrollbar py-1">
+                    <button onclick="filterKategoriPelanggan('Semua')" id="cat-btn-Semua" class="px-5 py-2 bg-rose-600 text-white text-xs font-black rounded-xl whitespace-nowrap shadow-md shadow-rose-600/30 transition transform active:scale-95">Semua Menu</button>
+                    <button onclick="filterKategoriPelanggan('Bakso Bakar')" id="cat-btn-Bakso Bakar" class="px-5 py-2 bg-gray-900 text-gray-300 hover:text-white text-xs font-bold rounded-xl whitespace-nowrap border border-gray-800 transition transform active:scale-95">🔥 Bakso Bakar</button>
+                    <button onclick="filterKategoriPelanggan('Minuman')" id="cat-btn-Minuman" class="px-5 py-2 bg-gray-900 text-gray-300 hover:text-white text-xs font-bold rounded-xl whitespace-nowrap border border-gray-800 transition transform active:scale-95">🥤 Minuman Segar</button>
+                    <button onclick="filterKategoriPelanggan('Extra')" id="cat-btn-Extra" class="px-5 py-2 bg-gray-900 text-gray-300 hover:text-white text-xs font-bold rounded-xl whitespace-nowrap border border-gray-800 transition transform active:scale-95">🍟 Extra Topping</button>
                 </div>
             </div>
         </header>
 
+        <!-- Grid Menu Estetik -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-            <div id="customer-menu-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-5"></div>
+            <div id="customer-menu-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6"></div>
         </main>
 
-        <div id="cart-bar" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-8 sm:w-96 bg-cardbg border border-gray-700 p-4 rounded-2xl shadow-2xl hidden flex justify-between items-center z-40">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-rose-600 rounded-full flex items-center justify-center relative">
-                    <i class="fa-solid fa-bag-shopping text-white text-lg"></i>
-                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-white text-rose-600 text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-cardbg">0</span>
+        <!-- Floating Cart Bar Premium -->
+        <div id="cart-bar" class="fixed bottom-6 left-4 right-4 sm:left-auto sm:right-8 sm:w-[420px] bg-cardbg/95 backdrop-blur-xl border border-gray-700/80 p-4 rounded-3xl shadow-2xl shadow-black/80 hidden flex justify-between items-center z-40 transform translate-y-0 transition-all">
+            <div class="flex items-center space-x-3.5">
+                <div class="w-13 h-13 w-12 h-12 bg-gradient-to-tr from-rose-600 to-amber-500 rounded-2xl flex items-center justify-center relative shadow-lg shadow-rose-600/40">
+                    <i class="fa-solid fa-basket-shopping text-white text-lg"></i>
+                    <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-white text-rose-600 text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-cardbg shadow">0</span>
                 </div>
                 <div>
-                    <p class="text-xs text-gray-400 font-medium">Total Pesanan</p>
-                    <p class="font-black text-lg text-white" id="cart-total-price">Rp 0</p>
+                    <p class="text-[11px] text-gray-400 font-bold uppercase tracking-wider">Total Pesanan Anda</p>
+                    <p class="font-black text-lg text-white tracking-tight" id="cart-total-price">Rp 0</p>
                 </div>
             </div>
-            <button onclick="openCheckoutModal()" class="bg-rose-600 hover:bg-rose-700 text-white px-5 py-3 rounded-xl font-bold text-sm shadow-md transition">Bayar <i class="fa-solid fa-chevron-right ml-1"></i></button>
+            <button onclick="openCheckoutModal()" class="bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-wider shadow-lg shadow-rose-600/40 transition transform active:scale-95 flex items-center space-x-2">
+                <span>Checkout</span> <i class="fa-solid fa-arrow-right"></i>
+            </button>
         </div>
     </div>
 
     <!-- ================= 2. VIEW ADMIN (ULTIMATE DASHBOARD PRO) ================= -->
     <div id="view-admin" class="hidden min-h-screen bg-gray-50 text-gray-800 font-sans">
-        
         <nav class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-40">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
                 <div class="flex items-center space-x-3">
@@ -89,8 +97,6 @@
         </nav>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-6 relative">
-            
-            <!-- Sidebar Admin -->
             <aside id="admin-sidebar" class="w-full md:w-64 flex-shrink-0 hidden md:block">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-3 space-y-1 sticky top-24">
                     <button onclick="switchAdminTab('orders')" id="tab-orders" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg bg-rose-50 text-rose-700 transition">
@@ -114,10 +120,7 @@
                 </div>
             </aside>
 
-            <!-- Konten Utama Admin -->
             <main class="flex-1">
-                
-                <!-- Statistik Dashboard Pro -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                         <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Omzet Kotor</p>
@@ -216,7 +219,7 @@
                     <div id="admin-menu-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
                 </div>
 
-                <!-- Section: Keuangan, Rekap & Pengeluaran (BARU & DIPERBAIKI) -->
+                <!-- Section: Keuangan, Rekap & Pengeluaran -->
                 <div id="admin-finance-section" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 border-b pb-3 gap-3">
@@ -228,8 +231,6 @@
                                 <button onclick="setFinanceFilter('semua')" id="fin-btn-semua" class="px-3 py-1 text-xs font-bold rounded-md text-gray-600 hover:text-gray-900">Semua</button>
                             </div>
                         </div>
-
-                        <!-- Ringkasan Periode Terpilih -->
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
                             <div>
                                 <p class="text-xs text-gray-500 font-bold uppercase">Omzet Periode Ini</p>
@@ -244,19 +245,14 @@
                                 <p class="text-xl font-black text-blue-600" id="report-profit">Rp 0</p>
                             </div>
                         </div>
-
-                        <!-- Form Catat Pengeluaran -->
                         <h4 class="font-bold text-xs text-gray-700 uppercase mb-2">Tambah Catat Pengeluaran / Modal</h4>
                         <form onsubmit="tambahPengeluaran(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
                             <input type="text" id="exp-ket" placeholder="Keterangan (Cth: Beli Tusuk Sate)" required class="bg-gray-50 border border-gray-200 p-2.5 rounded-lg text-sm outline-none">
                             <input type="number" id="exp-nominal" placeholder="Nominal (Cth: 50000)" required class="bg-gray-50 border border-gray-200 p-2.5 rounded-lg text-sm outline-none">
                             <button type="submit" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 rounded-lg text-sm transition">Catat Pengeluaran</button>
                         </form>
-
                         <h4 class="font-bold text-xs text-gray-700 uppercase mb-2">Riwayat Pengeluaran</h4>
                         <div id="expense-list" class="space-y-2 mb-6"></div>
-
-                        <!-- Ringkasan Menu Terlaris -->
                         <h4 class="font-bold text-xs text-gray-700 uppercase mb-2">Menu Paling Laris Terjual</h4>
                         <div id="top-products-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
                     </div>
@@ -291,7 +287,6 @@
                         </div>
                     </div>
                 </div>
-
             </main>
         </div>
     </div>
@@ -457,6 +452,16 @@
 
         function filterKategoriPelanggan(kat) {
             activeKategoriPelanggan = kat;
+            ['Semua', 'Bakso Bakar', 'Minuman', 'Extra'].forEach(k => {
+                let btn = document.getElementById(`cat-btn-${k}`);
+                if(btn) {
+                    if(k === kat) {
+                        btn.className = "px-5 py-2 bg-rose-600 text-white text-xs font-black rounded-xl whitespace-nowrap shadow-md shadow-rose-600/30 transition transform active:scale-95";
+                    } else {
+                        btn.className = "px-5 py-2 bg-gray-900 text-gray-300 hover:text-white text-xs font-bold rounded-xl whitespace-nowrap border border-gray-800 transition transform active:scale-95";
+                    }
+                }
+            });
             renderCustomerMenu();
         }
 
@@ -470,44 +475,58 @@
                 return matchKat && matchSearch;
             });
 
-            filteredMenus.forEach(m => {
-                let isHabis = m.status === 'Habis';
-                let qty = cart[m.id] ? cart[m.id].qty : 0;
-                let level = cart[m.id] ? cart[m.id].level : 'Tidak Pedas';
-                let imgSrc = m.img || 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=300&q=80';
+            if(filteredMenus.length === 0) {
+                html = `<div class="col-span-full text-center py-16 text-gray-400"><i class="fa-solid fa-plate-wheat text-4xl mb-3 text-rose-500/50"></i><p class="font-bold text-sm">Menu tidak ditemukan.</p></div>`;
+            } else {
+                filteredMenus.forEach(m => {
+                    let isHabis = m.status === 'Habis';
+                    let qty = cart[m.id] ? cart[m.id].qty : 0;
+                    let level = cart[m.id] ? cart[m.id].level : 'Tidak Pedas';
+                    let imgSrc = m.img || 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=300&q=80';
+                    let kategoriLabel = m.kategori || 'Bakso Bakar';
 
-                html += `
-                    <div class="bg-cardbg rounded-2xl overflow-hidden shadow-lg border border-gray-800 flex flex-col relative ${isHabis ? 'opacity-60 grayscale' : ''}">
-                        <div class="h-32 sm:h-40 w-full bg-gray-900 relative">
-                            <img src="${imgSrc}" class="w-full h-full object-cover">
-                            ${isHabis ? '<span class="absolute inset-0 bg-black/70 flex items-center justify-center font-black text-rose-500 uppercase tracking-widest text-sm">HABIS</span>' : ''}
-                        </div>
-                        <div class="p-3 sm:p-4 flex flex-col flex-grow justify-between">
-                            <div>
-                                <h3 class="font-bold text-white text-sm leading-tight mb-1">${m.name}</h3>
-                                <p class="font-black text-rose-500 text-sm mb-3">Rp ${m.price.toLocaleString()}</p>
+                    html += `
+                        <div class="bg-cardbg rounded-3xl overflow-hidden shadow-xl border border-gray-800/80 flex flex-col relative group transition duration-300 hover:border-rose-500/50 hover:shadow-rose-500/10 ${isHabis ? 'opacity-60 grayscale' : ''}">
+                            <div class="h-36 sm:h-44 w-full bg-gray-900 relative overflow-hidden">
+                                <img src="${imgSrc}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-cardbg via-transparent to-transparent opacity-80"></div>
+                                <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-[10px] font-black uppercase text-rose-400 px-2.5 py-1 rounded-lg border border-white/10">${kategoriLabel}</span>
+                                ${isHabis ? '<span class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center font-black text-rose-500 uppercase tracking-widest text-sm">HABIS STOK</span>' : ''}
                             </div>
-                            ${!isHabis ? `
-                            <div class="space-y-2 mt-auto">
-                                <select onchange="updateLevel(${m.id}, this.value)" class="w-full bg-darkbg border border-gray-700 text-xs font-bold text-gray-300 p-2 rounded-xl outline-none focus:border-rose-500">
-                                    <option value="Tidak Pedas" ${level === 'Tidak Pedas' ? 'selected' : ''}>Ori / Tidak Pedas</option>
-                                    <option value="Pedas Sedang" ${level === 'Pedas Sedang' ? 'selected' : ''}>🌶️ Pedas Sedang</option>
-                                    <option value="Pedas Gila" ${level === 'Pedas Gila' ? 'selected' : ''}>🔥 Pedas Gila</option>
-                                </select>
-                                ${qty === 0 ? `
-                                    <button onclick="ubahQty(${m.id}, 1)" class="w-full border-2 border-rose-600 text-rose-500 font-bold py-1.5 rounded-xl text-xs hover:bg-rose-600 hover:text-white transition">Tambah</button>
-                                ` : `
-                                    <div class="flex justify-between items-center bg-darkbg p-1 rounded-xl border border-gray-700">
-                                        <button onclick="ubahQty(${m.id}, -1)" class="w-7 h-7 bg-gray-800 text-gray-300 rounded text-lg font-bold">-</button>
-                                        <span class="font-black text-white text-sm">${qty}</span>
-                                        <button onclick="ubahQty(${m.id}, 1)" class="w-7 h-7 bg-rose-600 text-white rounded font-bold">+</button>
+                            <div class="p-4 flex flex-col flex-grow justify-between">
+                                <div>
+                                    <h3 class="font-black text-white text-sm sm:text-base leading-snug mb-1 group-hover:text-rose-400 transition">${m.name}</h3>
+                                    <p class="font-black text-rose-500 text-sm sm:text-base mb-3">Rp ${m.price.toLocaleString()}</p>
+                                </div>
+                                ${!isHabis ? `
+                                <div class="space-y-2.5 mt-auto pt-2 border-t border-gray-800/60">
+                                    <div class="relative">
+                                        <select onchange="updateLevel(${m.id}, this.value)" class="w-full bg-darkbg border border-gray-700/80 text-[11px] font-bold text-gray-300 py-2 px-3 rounded-xl outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 appearance-none cursor-pointer">
+                                            <option value="Tidak Pedas" ${level === 'Tidak Pedas' ? 'selected' : ''}>✨ Ori / Tidak Pedas</option>
+                                            <option value="Pedas Sedang" ${level === 'Pedas Sedang' ? 'selected' : ''}>🌶️ Pedas Sedang</option>
+                                            <option value="Pedas Gila" ${level === 'Pedas Gila' ? 'selected' : ''}>🔥 Pedas Gila</option>
+                                        </select>
+                                        <div class="absolute inset-y-0 right-0 flex items-center px-2.5 pointer-events-none text-gray-400 text-[10px]">
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </div>
                                     </div>
-                                `}
-                            </div>` : ''}
+                                    ${qty === 0 ? `
+                                        <button onclick="ubahQty(${m.id}, 1)" class="w-full bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-black py-2.5 rounded-xl text-xs shadow-md shadow-rose-600/30 transition transform active:scale-95 flex items-center justify-center space-x-1.5">
+                                            <i class="fa-solid fa-plus text-[10px]"></i> <span>Pesan Menu</span>
+                                        </button>
+                                    ` : `
+                                        <div class="flex justify-between items-center bg-darkbg p-1 rounded-xl border border-gray-700/80 shadow-inner">
+                                            <button onclick="ubahQty(${m.id}, -1)" class="w-8 h-8 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-black transition flex items-center justify-center">-</button>
+                                            <span class="font-black text-white text-sm px-2">${qty}</span>
+                                            <button onclick="ubahQty(${m.id}, 1)" class="w-8 h-8 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-sm font-black transition flex items-center justify-center">+</button>
+                                        </div>
+                                    `}
+                                </div>` : ''}
+                            </div>
                         </div>
-                    </div>
-                `;
-            });
+                    `;
+                });
+            }
             document.getElementById('customer-menu-grid').innerHTML = html;
             updateCartBar();
         }
@@ -780,7 +799,6 @@
             document.getElementById('report-expense').innerText = `Rp ${totalExp.toLocaleString()}`;
             document.getElementById('report-profit').innerText = `Rp ${profit.toLocaleString()}`;
 
-            // Kalkulasi Menu Terlaris
             let productCounts = {};
             filteredOrders.forEach(o => {
                 if(Array.isArray(o.items)) {
