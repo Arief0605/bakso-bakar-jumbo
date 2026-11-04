@@ -17,7 +17,12 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Transisi Smooth Antar Fitur */
+        /* Custom Scrollbar untuk list menu yang panjang */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f0f11; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #f43f5e; }
+
         .admin-section {
             animation: fadeIn 0.15s ease-in-out forwards;
         }
@@ -54,7 +59,7 @@
                 </div>
                 
                 <div class="flex items-center space-x-3 w-full sm:w-auto">
-                    <button onclick="ubahMejaManual()" class="flex items-center space-x-2 bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/40 px-3.5 py-2 rounded-xl text-xs font-black text-rose-400 transition shadow-inner whitespace-nowrap">
+                    <button onclick="ubahMejaManual()" class="flex items-center space-x-2 bg-rose-600/25 hover:bg-rose-600/35 border border-rose-500/40 px-3.5 py-2 rounded-xl text-xs font-black text-rose-400 transition shadow-inner whitespace-nowrap">
                         <i class="fa-solid fa-chair text-rose-500"></i>
                         <span id="display-meja">Pilih Meja Dulu</span>
                         <i class="fa-solid fa-pen text-[10px] ml-1 opacity-70"></i>
@@ -186,8 +191,9 @@
                                 <input type="text" id="cashier-meja" placeholder="Cth: Meja 03 / Takeaway" class="w-full bg-darkbg border border-gray-700 text-white p-3 rounded-xl text-sm outline-none focus:border-rose-500">
                             </div>
                         </div>
-                        <p class="text-xs font-bold text-gray-300 mb-2">Pilih Menu:</p>
-                        <div id="cashier-menu-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4"></div>
+                        <p class="text-xs font-bold text-gray-300 mb-2">Pilih Menu (Scroll untuk menu lainnya):</p>
+                        <!-- Wadah dengan scroll agar jika ada 50+ menu tetap rapi dan tidak kepanjangan -->
+                        <div id="cashier-menu-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4 max-h-[350px] overflow-y-auto pr-2"></div>
                         <div class="bg-darkbg p-4 rounded-xl border border-gray-800 flex justify-between items-center">
                             <div>
                                 <p class="text-xs text-gray-400 font-bold">Total Tagihan Kasir:</p>
@@ -238,7 +244,8 @@
                             </div>
                         </form>
                     </div>
-                    <div id="admin-menu-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                    <!-- Daftar Menu dengan pembatas tinggi & scroll rapi -->
+                    <div id="admin-menu-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[500px] overflow-y-auto pr-1"></div>
                 </div>
 
                 <!-- Section: Keuangan & Pengeluaran -->
@@ -274,7 +281,7 @@
                             <button type="submit" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl text-sm transition">Catat Pengeluaran</button>
                         </form>
                         <h4 class="font-bold text-xs text-gray-300 uppercase mb-2">Riwayat Pengeluaran</h4>
-                        <div id="expense-list" class="space-y-2 mb-6"></div>
+                        <div id="expense-list" class="space-y-2 mb-6 max-h-48 overflow-y-auto"></div>
                         <h4 class="font-bold text-xs text-gray-300 uppercase mb-2">Menu Paling Laris Terjual</h4>
                         <div id="top-products-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
                     </div>
@@ -294,8 +301,8 @@
                 </div>
 
                 <!-- Section: Cetak QR -->
-                <div id="admin-qr-section" class="admin-section hidden">
-                    <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800 max-w-sm">
+                <div id="admin-qr-section" class="admin-section hidden space-y-6">
+                    <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800 max-w-md">
                         <h3 class="font-black text-white mb-2 border-b border-gray-800 pb-3">QR Code Meja Permanen</h3>
                         <label class="block text-xs font-bold text-gray-300 mb-1 mt-3">Nomor Meja</label>
                         <div class="flex space-x-2 mb-4">
@@ -307,9 +314,15 @@
                             <div id="qrcode-box" class="p-3 bg-white rounded-xl shadow-xl mb-4"></div>
                             <div class="flex space-x-2 w-full">
                                 <button id="btn-print-qr" onclick="window.print()" class="flex-1 bg-rose-600 text-white font-bold py-2.5 rounded-xl text-sm shadow-sm"><i class="fa-solid fa-print mr-1"></i>Cetak</button>
-                                <button onclick="hapusQR()" class="bg-gray-800 hover:bg-rose-900/50 text-gray-300 px-3 py-2.5 rounded-xl text-xs font-bold transition"><i class="fa-solid fa-trash"></i></button>
+                                <button onclick="hapusQRAktif()" class="bg-gray-800 hover:bg-rose-900/50 text-gray-300 px-3 py-2.5 rounded-xl text-xs font-bold transition"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Daftar Meja Tersimpan (Permanen Tidak Hilang Saat Refresh) -->
+                    <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800">
+                        <h3 class="font-bold text-white mb-3 text-sm">Daftar Meja Tersimpan (Permanen)</h3>
+                        <div id="saved-qr-list" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
                     </div>
                 </div>
             </main>
@@ -375,6 +388,7 @@
         let activeKategoriPelanggan = 'Semua';
         let cashierCart = {};
         let currentFinanceFilter = 'hari';
+        let activeQRTarjet = '';
 
         window.onload = async function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -392,6 +406,7 @@
                 await fetchMenus();
                 await fetchOrders();
                 await fetchExpenses();
+                renderSavedQRList();
                 setupRealtimeSubscription();
             } else {
                 document.getElementById('view-customer').classList.remove('hidden');
@@ -446,6 +461,7 @@
             document.getElementById(`admin-${tab}-section`).classList.remove('hidden');
             if(tab === 'cashier') renderCashierMenu();
             if(tab === 'finance') { renderExpensesList(); renderFinanceReport(); }
+            if(tab === 'qr') renderSavedQRList();
             if(window.innerWidth < 768) document.getElementById('admin-sidebar').classList.add('hidden');
         }
 
@@ -1021,22 +1037,76 @@
             fetchMenus();
         }
 
+        // --- SISTEM QR CODE PERMANEN (LOCALSTORAGE) ---
+        function getSavedQRs() {
+            try {
+                return JSON.parse(localStorage.getItem('bakar_saved_qrs') || '[]');
+            } catch(e) { return []; }
+        }
+
         function buatQR() {
             let noMeja = document.getElementById('input-no-meja').value.trim();
             if(!noMeja) return alert('Isi nomor meja!');
+            
             let cleanUrl = window.location.origin + window.location.pathname.split('?')[0];
             let finalUrl = cleanUrl + '?meja=' + encodeURIComponent(noMeja);
             
+            activeQRTarjet = noMeja;
+            
+            // Simpan ke localStorage agar tidak hilang saat refresh
+            let listQR = getSavedQRs();
+            if(!listQR.includes(noMeja)) {
+                listQR.push(noMeja);
+                localStorage.setItem('bakar_saved_qrs', JSON.stringify(listQR));
+            }
+
             document.getElementById('qr-result-container').classList.remove('hidden');
             document.getElementById('qr-result-container').classList.add('flex');
             document.getElementById('qr-meja-title').innerText = 'MEJA ' + noMeja;
             document.getElementById('qrcode-box').innerHTML = '';
             new QRCode(document.getElementById('qrcode-box'), { text: finalUrl, width: 180, height: 180, colorDark : "#1f2937", colorLight : "#ffffff" });
+            renderSavedQRList();
         }
 
-        function hapusQR() {
-            document.getElementById('qr-result-container').classList.add('hidden');
-            document.getElementById('input-no-meja').value = '';
+        function renderSavedQRList() {
+            let listQR = getSavedQRs();
+            let html = '';
+            if(listQR.length === 0) {
+                html = `<p class="col-span-full text-xs text-gray-500">Belum ada QR Meja yang disimpan.</p>`;
+            } else {
+                listQR.forEach(meja => {
+                    html += `
+                        <div class="bg-darkbg p-3 rounded-xl border border-gray-800 flex justify-between items-center text-xs">
+                            <span class="font-bold text-white">Meja ${meja}</span>
+                            <div class="space-x-1">
+                                <button onclick="tampilkanQR('${meja}')" class="px-2.5 py-1 bg-rose-600/20 text-rose-400 rounded hover:bg-rose-600/30 font-bold">Lihat</button>
+                                <button onclick="hapusQR('${meja}')" class="px-2 py-1 bg-gray-800 text-gray-400 hover:text-rose-400 rounded"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            let container = document.getElementById('saved-qr-list');
+            if(container) container.innerHTML = html;
+        }
+
+        function tampilkanQR(noMeja) {
+            document.getElementById('input-no-meja').value = noMeja;
+            buatQR();
+        }
+
+        function hapusQR(noMeja) {
+            let listQR = getSavedQRs();
+            let newList = listQR.filter(m => m !== noMeja);
+            localStorage.setItem('bakar_saved_qrs', JSON.stringify(newList));
+            renderSavedQRList();
+            if(activeQRTarjet === noMeja) {
+                document.getElementById('qr-result-container').classList.add('hidden');
+            }
+        }
+
+        function hapusQRAktif() {
+            if(activeQRTarjet) hapusQR(activeQRTarjet);
         }
 
         function playNotificationSound() {
