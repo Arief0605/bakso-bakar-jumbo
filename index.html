@@ -39,7 +39,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Kategori Pelanggan -->
                 <div id="customer-kategori-tabs" class="flex space-x-2 overflow-x-auto no-scrollbar pb-1">
                     <button onclick="filterKategoriPelanggan('Semua')" class="px-4 py-2 bg-rose-600 text-white text-xs font-bold rounded-full whitespace-nowrap shadow-md">Semua Menu</button>
                     <button onclick="filterKategoriPelanggan('Bakso Bakar')" class="px-4 py-2 bg-gray-800 text-gray-400 text-xs font-bold rounded-full whitespace-nowrap border border-gray-700">🔥 Bakso Bakar</button>
@@ -324,7 +323,6 @@
             const mode = urlParams.get('mode');
             const mejaParam = urlParams.get('meja');
 
-            // Ambil data diskon tersimpan di localStorage browser kasir
             globalDiskon = parseInt(localStorage.getItem('bakar_diskon') || '0');
 
             if (mode === 'admin') {
@@ -417,7 +415,6 @@
             }
         }
 
-        // --- PELANGGAN ---
         function filterKategoriPelanggan(kat) {
             activeKategoriPelanggan = kat;
             renderCustomerMenu();
@@ -555,7 +552,6 @@
             reader.readAsDataURL(fileInput);
         }
 
-        // --- ADMIN: KASIR WALK-IN ---
         function renderCashierMenu() {
             let html = '';
             menus.filter(m => m.status !== 'Habis').forEach(m => {
@@ -623,7 +619,6 @@
             } else alert('Error: ' + error.message);
         }
 
-        // --- ADMIN: DAPUR & KEUANGAN ---
         function filterOrder(status) { currentFilter = status; renderAdminOrders(); }
 
         function renderAdminOrders() {
