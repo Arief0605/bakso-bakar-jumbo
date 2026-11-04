@@ -17,6 +17,15 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
+        /* Transisi Smooth Antar Fitur */
+        .admin-section {
+            animation: fadeIn 0.15s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @media print {
             body * { visibility: hidden; }
             #qr-result-container, #qr-result-container *, #thermal-receipt-modal, #thermal-receipt-modal * { visibility: visible; }
@@ -395,6 +404,7 @@
                 }
                 updateMejaDisplay();
                 await fetchMenus();
+                setupCustomerRealtime();
             }
         }
 
@@ -477,6 +487,16 @@
                 if(payload.eventType === 'INSERT' && payload.new && payload.new.status === 'Pending') {
                     playNotificationSound();
                 }
+            }).subscribe();
+
+            supabaseClient.channel('public:menus').on('postgres_changes', { event: '*', schema: 'public', table: 'menus' }, payload => {
+                fetchMenus();
+            }).subscribe();
+        }
+
+        function setupCustomerRealtime() {
+            supabaseClient.channel('public:menus-customer').on('postgres_changes', { event: '*', schema: 'public', table: 'menus' }, payload => {
+                fetchMenus();
             }).subscribe();
         }
 
@@ -651,8 +671,11 @@
 
                 let { error } = await supabaseClient.from('orders').insert([newOrder]);
                 if (!error) {
-                    cart = {}; closeCheckoutModal(); renderCustomerMenu();
-                    alert('Pesanan berhasil dikirim ke Dapur!');
+                    cart = {}; 
+                    closeCheckoutModal(); 
+                    document.getElementById('pemesan-nama').value = '';
+                    document.getElementById('bukti-transfer').value = '';
+                    renderCustomerMenu();
                 } else alert('Error: ' + error.message);
             }
             reader.readAsDataURL(fileInput);
@@ -721,7 +744,6 @@
                 document.getElementById('cashier-nama').value = '';
                 document.getElementById('cashier-meja').value = '';
                 renderCashierMenu();
-                alert('Pesanan kasir berhasil dimasukkan ke antrean dapur!');
             } else alert('Error: ' + error.message);
         }
 
@@ -782,11 +804,8 @@
         }
 
         async function hapusOrder(id) {
-            if(confirm(`Yakin ingin menghapus riwayat pesanan ${id}?`)) {
-                let { error } = await supabaseClient.from('orders').delete().eq('id', id);
-                if(!error) fetchOrders();
-                else alert('Gagal menghapus: ' + error.message);
-            }
+            let { error } = await supabaseClient.from('orders').delete().eq('id', id);
+            if(!error) fetchOrders();
         }
 
         function cetakStruk(orderId) {
@@ -994,15 +1013,12 @@
                 document.getElementById('upload-placeholder').classList.remove('hidden');
                 document.getElementById('menu-gambar-b64').value = '';
                 fetchMenus();
-                alert('Menu berhasil disimpan!');
             } else alert('Error: ' + error.message);
         }
 
         async function hapusMenu(id) {
-            if(confirm('Hapus menu ini?')) {
-                await supabaseClient.from('menus').delete().eq('id', id);
-                fetchMenus();
-            }
+            await supabaseClient.from('menus').delete().eq('id', id);
+            fetchMenus();
         }
 
         function buatQR() {
