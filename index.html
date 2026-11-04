@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bakso Bakar Jumbo - Ultimate POS & Self-Order</title>
+    <title>Bakso Bakar Jumbo - Ultimate POS & Self-Order Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -18,7 +18,7 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         @media print {
             body * { visibility: hidden; }
-            #qr-result-container, #qr-result-container * { visibility: visible; }
+            #qr-result-container, #qr-result-container *, .print-area, .print-area * { visibility: visible; }
             #qr-result-container { position: absolute; left: 50%; top: 20px; transform: translateX(-50%); width: 300px; border: none !important; background: transparent !important; }
             #btn-print-qr { display: none !important; }
         }
@@ -39,11 +39,16 @@
                         </div>
                     </div>
                 </div>
-                <div id="customer-kategori-tabs" class="flex space-x-2 overflow-x-auto no-scrollbar pb-1">
-                    <button onclick="filterKategoriPelanggan('Semua')" class="px-4 py-2 bg-rose-600 text-white text-xs font-bold rounded-full whitespace-nowrap shadow-md">Semua Menu</button>
-                    <button onclick="filterKategoriPelanggan('Bakso Bakar')" class="px-4 py-2 bg-gray-800 text-gray-400 text-xs font-bold rounded-full whitespace-nowrap border border-gray-700">🔥 Bakso Bakar</button>
-                    <button onclick="filterKategoriPelanggan('Minuman')" class="px-4 py-2 bg-gray-800 text-gray-400 text-xs font-bold rounded-full whitespace-nowrap border border-gray-700">🥤 Minuman</button>
-                    <button onclick="filterKategoriPelanggan('Extra')" class="px-4 py-2 bg-gray-800 text-gray-400 text-xs font-bold rounded-full whitespace-nowrap border border-gray-700">🍟 Extra</button>
+                <div class="flex items-center space-x-2 w-full sm:w-auto">
+                    <input type="text" id="search-customer-menu" placeholder="Cari menu favorit..." oninput="renderCustomerMenu()" class="bg-darkbg border border-gray-700 text-xs text-white px-3 py-2 rounded-full outline-none w-full sm:w-48 focus:border-rose-500">
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-3">
+                <div id="customer-kategori-tabs" class="flex space-x-2 overflow-x-auto no-scrollbar">
+                    <button onclick="filterKategoriPelanggan('Semua')" class="px-4 py-1.5 bg-rose-600 text-white text-xs font-bold rounded-full whitespace-nowrap shadow-md">Semua Menu</button>
+                    <button onclick="filterKategoriPelanggan('Bakso Bakar')" class="px-4 py-1.5 bg-gray-800 text-gray-400 text-xs font-bold rounded-full whitespace-nowrap border border-gray-700">🔥 Bakso Bakar</button>
+                    <button onclick="filterKategoriPelanggan('Minuman')" class="px-4 py-1.5 bg-gray-800 text-gray-400 text-xs font-bold rounded-full whitespace-nowrap border border-gray-700">🥤 Minuman</button>
+                    <button onclick="filterKategoriPelanggan('Extra')" class="px-4 py-1.5 bg-gray-800 text-gray-400 text-xs font-bold rounded-full whitespace-nowrap border border-gray-700">🍟 Extra</button>
                 </div>
             </div>
         </header>
@@ -67,7 +72,7 @@
         </div>
     </div>
 
-    <!-- ================= 2. VIEW ADMIN (ULTIMATE DASHBOARD) ================= -->
+    <!-- ================= 2. VIEW ADMIN (ULTIMATE DASHBOARD PRO) ================= -->
     <div id="view-admin" class="hidden min-h-screen bg-gray-50 text-gray-800 font-sans">
         
         <nav class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-40">
@@ -75,17 +80,17 @@
                 <div class="flex items-center space-x-3">
                     <button onclick="toggleSidebar()" class="md:hidden text-gray-600 p-2 focus:outline-none"><i class="fa-solid fa-bars text-lg"></i></button>
                     <div class="w-8 h-8 rounded bg-rose-600 text-white flex items-center justify-center font-bold text-lg">B</div>
-                    <span class="font-black text-gray-800 text-lg tracking-tight">Admin<span class="text-rose-600">POS PRO</span></span>
+                    <span class="font-black text-gray-800 text-lg tracking-tight">Admin<span class="text-rose-600">POS PRO+</span></span>
                 </div>
                 <span class="flex items-center text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-100">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span> Live Sync
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span> Live Sync Active
                 </span>
             </div>
         </nav>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-6 relative">
             
-            <!-- Sidebar Admin Lengkap -->
+            <!-- Sidebar Admin -->
             <aside id="admin-sidebar" class="w-full md:w-64 flex-shrink-0 hidden md:block">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-3 space-y-1 sticky top-24">
                     <button onclick="switchAdminTab('orders')" id="tab-orders" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg bg-rose-50 text-rose-700 transition">
@@ -98,10 +103,10 @@
                         <i class="fa-solid fa-utensils w-5 text-center"></i> <span>Kelola Menu & Stok</span>
                     </button>
                     <button onclick="switchAdminTab('finance')" id="tab-finance" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg text-gray-600 hover:bg-gray-50 transition">
-                        <i class="fa-solid fa-wallet w-5 text-center"></i> <span>Keuangan & Pengeluaran</span>
+                        <i class="fa-solid fa-wallet w-5 text-center"></i> <span>Laporan & Keuangan</span>
                     </button>
                     <button onclick="switchAdminTab('promo')" id="tab-promo" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg text-gray-600 hover:bg-gray-50 transition">
-                        <i class="fa-solid fa-ticket w-5 text-center"></i> <span>Pengaturan Promo</span>
+                        <i class="fa-solid fa-ticket w-5 text-center"></i> <span>Pengaturan Diskon</span>
                     </button>
                     <button onclick="switchAdminTab('qr')" id="tab-qr" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg text-gray-600 hover:bg-gray-50 transition">
                         <i class="fa-solid fa-qrcode w-5 text-center"></i> <span>Cetak QR Meja</span>
@@ -112,19 +117,19 @@
             <!-- Konten Utama Admin -->
             <main class="flex-1">
                 
-                <!-- Statistik Finansial & Operasional -->
+                <!-- Statistik Dashboard Pro (Omzet, Expense, Profit Bersih, Total Order) -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                        <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Omzet Selesai</p>
+                        <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Omzet Kotor</p>
                         <h3 class="text-lg font-black text-emerald-600" id="stat-omzet">Rp 0</h3>
                     </div>
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                        <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Total Pengeluaran</p>
+                        <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Pengeluaran</p>
                         <h3 class="text-lg font-black text-rose-600" id="stat-expense">Rp 0</h3>
                     </div>
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                        <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Total Pesanan</p>
-                        <h3 class="text-lg font-black text-gray-800" id="stat-total-order">0</h3>
+                        <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Estimasi Laba Bersih</p>
+                        <h3 class="text-lg font-black text-blue-600" id="stat-net-profit">Rp 0</h3>
                     </div>
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                         <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Antrean Dapur</p>
@@ -211,7 +216,7 @@
                     <div id="admin-menu-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
                 </div>
 
-                <!-- Section: Keuangan & Pengeluaran Kedai -->
+                <!-- Section: Keuangan & Pengeluaran -->
                 <div id="admin-finance-section" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                         <h3 class="font-bold text-gray-900 mb-4 border-b pb-2">Catat Pengeluaran Operasional / Modal</h3>
@@ -422,7 +427,13 @@
 
         function renderCustomerMenu() {
             let html = '';
-            let filteredMenus = activeKategoriPelanggan === 'Semua' ? menus : menus.filter(m => (m.kategori || 'Bakso Bakar') === activeKategoriPelanggan);
+            let keyword = (document.getElementById('search-customer-menu')?.value || '').toLowerCase();
+            
+            let filteredMenus = menus.filter(m => {
+                let matchKat = (activeKategoriPelanggan === 'Semua' || (m.kategori || 'Bakso Bakar') === activeKategoriPelanggan);
+                let matchSearch = m.name.toLowerCase().includes(keyword);
+                return matchKat && matchSearch;
+            });
 
             filteredMenus.forEach(m => {
                 let isHabis = m.status === 'Habis';
@@ -635,13 +646,13 @@
                     let itemsHtml = Array.isArray(o.items) ? o.items.map(i => `<div class="flex justify-between text-xs font-bold text-gray-700 mb-1"><span>${i.qty}x ${i.name}</span> <span class="text-rose-500">${i.note}</span></div>`).join('') : '';
                     
                     html += `
-                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between print-area">
                             <div>
                                 <div class="flex justify-between items-center mb-3">
                                     <span class="font-black text-sm uppercase text-gray-900">${o.meja}</span>
                                     <span class="text-[10px] px-2 py-0.5 rounded font-bold border border-current ${badge}">${o.status}</span>
                                 </div>
-                                <p class="text-xs font-bold text-gray-500 mb-3">Oleh: <span class="text-gray-900">${o.nama}</span></p>
+                                <p class="text-xs font-bold text-gray-500 mb-3">Oleh: <span class="text-gray-900">${o.nama}</span> <span class="text-[10px] text-gray-400 ml-2">(${o.id})</span></p>
                                 <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 mb-4">${itemsHtml}</div>
                                 <div class="flex items-center space-x-3 mb-4">
                                     <img src="${o.bukti || ''}" class="w-12 h-12 object-cover rounded bg-gray-100 border cursor-pointer" onclick="window.open('${o.bukti}')">
@@ -649,8 +660,9 @@
                                 </div>
                             </div>
                             <div class="flex space-x-2 pt-3 border-t border-gray-100">
-                                ${o.status === 'Selesai' ? `<button class="w-full bg-emerald-50 text-emerald-600 py-2 rounded text-xs font-bold" disabled><i class="fa-solid fa-check mr-1"></i>Selesai</button>` : `
-                                <button onclick="ubahStatusOrder('${o.id}', 'Diproses')" class="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 rounded-lg text-xs font-bold transition">Proses Masak</button>
+                                <button onclick="window.print()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-xs font-bold transition"><i class="fa-solid fa-print"></i></button>
+                                ${o.status === 'Selesai' ? `<button class="flex-1 bg-emerald-50 text-emerald-600 py-2 rounded text-xs font-bold" disabled><i class="fa-solid fa-check mr-1"></i>Selesai</button>` : `
+                                <button onclick="ubahStatusOrder('${o.id}', 'Diproses')" class="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 rounded-lg text-xs font-bold transition">Proses</button>
                                 <button onclick="ubahStatusOrder('${o.id}', 'Selesai')" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-lg text-xs font-bold transition">Selesai</button>`}
                             </div>
                         </div>
@@ -669,10 +681,13 @@
             let totalExpense = 0;
             expenses.forEach(e => { totalExpense += (e.nominal || 0); });
 
+            let netProfit = omzet - totalExpense;
+
             document.getElementById('stat-total-order').innerText = totalOrder;
             document.getElementById('stat-pending').innerText = pendingCount;
             document.getElementById('stat-omzet').innerText = `Rp ${omzet.toLocaleString()}`;
             document.getElementById('stat-expense').innerText = `Rp ${totalExpense.toLocaleString()}`;
+            document.getElementById('stat-net-profit').innerText = `Rp ${netProfit.toLocaleString()}`;
         }
 
         async function ubahStatusOrder(id, status) {
