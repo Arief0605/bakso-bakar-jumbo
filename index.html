@@ -17,7 +17,6 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Custom Scrollbar untuk list menu yang panjang */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #0f0f11; }
         ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
@@ -126,8 +125,12 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-6 relative">
             <aside id="admin-sidebar" class="w-full md:w-64 flex-shrink-0 hidden md:block">
                 <div class="bg-cardbg rounded-2xl shadow-xl border border-gray-800 p-3 space-y-1.5 sticky top-24">
-                    <button onclick="switchAdminTab('orders')" id="tab-orders" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl bg-rose-600 text-white shadow-lg shadow-rose-600/30 transition">
-                        <i class="fa-solid fa-fire-burner w-5 text-center"></i> <span>Dapur & Pesanan</span>
+                    <!-- Tab Dapur & Pesanan dilengkapi Indikator Badge Notif WA Style -->
+                    <button onclick="switchAdminTab('orders')" id="tab-orders" class="w-full flex items-center justify-between px-4 py-3 text-sm font-bold rounded-xl bg-rose-600 text-white shadow-lg shadow-rose-600/30 transition">
+                        <div class="flex items-center space-x-3">
+                            <i class="fa-solid fa-fire-burner w-5 text-center"></i> <span>Dapur & Pesanan</span>
+                        </div>
+                        <span id="nav-notif-badge" class="hidden bg-white text-rose-600 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow animate-bounce">0</span>
                     </button>
                     <button onclick="switchAdminTab('cashier')" id="tab-cashier" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-800 hover:text-white transition">
                         <i class="fa-solid fa-cash-register w-5 text-center"></i> <span>Kasir Walk-In</span>
@@ -192,7 +195,6 @@
                             </div>
                         </div>
                         <p class="text-xs font-bold text-gray-300 mb-2">Pilih Menu (Scroll untuk menu lainnya):</p>
-                        <!-- Wadah dengan scroll agar jika ada 50+ menu tetap rapi dan tidak kepanjangan -->
                         <div id="cashier-menu-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4 max-h-[350px] overflow-y-auto pr-2"></div>
                         <div class="bg-darkbg p-4 rounded-xl border border-gray-800 flex justify-between items-center">
                             <div>
@@ -244,7 +246,6 @@
                             </div>
                         </form>
                     </div>
-                    <!-- Daftar Menu dengan pembatas tinggi & scroll rapi -->
                     <div id="admin-menu-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[500px] overflow-y-auto pr-1"></div>
                 </div>
 
@@ -319,7 +320,6 @@
                         </div>
                     </div>
 
-                    <!-- Daftar Meja Tersimpan (Permanen Tidak Hilang Saat Refresh) -->
                     <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800">
                         <h3 class="font-bold text-white mb-3 text-sm">Daftar Meja Tersimpan (Permanen)</h3>
                         <div id="saved-qr-list" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
@@ -454,10 +454,23 @@
             ['orders', 'cashier', 'menus', 'finance', 'promo', 'qr'].forEach(t => {
                 let tabBtn = document.getElementById(`tab-${t}`);
                 let sec = document.getElementById(`admin-${t}-section`);
-                if(tabBtn) tabBtn.className = "w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-800 hover:text-white transition";
+                if(tabBtn) {
+                    if(t === 'orders') {
+                        tabBtn.className = "w-full flex items-center justify-between px-4 py-3 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-800 hover:text-white transition";
+                    } else {
+                        tabBtn.className = "w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-800 hover:text-white transition";
+                    }
+                }
                 if(sec) sec.classList.add('hidden');
             });
-            document.getElementById(`tab-${tab}`).className = "w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl bg-rose-600 text-white shadow-lg shadow-rose-600/30 transition";
+
+            let activeBtn = document.getElementById(`tab-${tab}`);
+            if(tab === 'orders') {
+                activeBtn.className = "w-full flex items-center justify-between px-4 py-3 text-sm font-bold rounded-xl bg-rose-600 text-white shadow-lg shadow-rose-600/30 transition";
+            } else {
+                activeBtn.className = "w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl bg-rose-600 text-white shadow-lg shadow-rose-600/30 transition";
+            }
+
             document.getElementById(`admin-${tab}-section`).classList.remove('hidden');
             if(tab === 'cashier') renderCashierMenu();
             if(tab === 'finance') { renderExpensesList(); renderFinanceReport(); }
@@ -484,6 +497,7 @@
                 renderAdminOrders();
                 hitungStatistikAdmin();
                 renderFinanceReport();
+                updateNotificationBadge();
             }
         }
 
@@ -500,8 +514,8 @@
         function setupRealtimeSubscription() {
             supabaseClient.channel('public:orders').on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, payload => {
                 fetchOrders();
-                if(payload.eventType === 'INSERT' && payload.new && payload.new.status === 'Pending') {
-                    playNotificationSound();
+                if(payload.eventType === 'INSERT') {
+                    playWhatsAppNotificationSound();
                 }
             }).subscribe();
 
@@ -514,6 +528,19 @@
             supabaseClient.channel('public:menus-customer').on('postgres_changes', { event: '*', schema: 'public', table: 'menus' }, payload => {
                 fetchMenus();
             }).subscribe();
+        }
+
+        function updateNotificationBadge() {
+            let pendingCount = orders.filter(o => o.status === 'Pending' || o.status === 'Diproses').length;
+            let badge = document.getElementById('nav-notif-badge');
+            if(badge) {
+                if(pendingCount > 0) {
+                    badge.innerText = pendingCount;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            }
         }
 
         function previewMenuImage(input) {
@@ -1037,7 +1064,6 @@
             fetchMenus();
         }
 
-        // --- SISTEM QR CODE PERMANEN (LOCALSTORAGE) ---
         function getSavedQRs() {
             try {
                 return JSON.parse(localStorage.getItem('bakar_saved_qrs') || '[]');
@@ -1053,7 +1079,6 @@
             
             activeQRTarjet = noMeja;
             
-            // Simpan ke localStorage agar tidak hilang saat refresh
             let listQR = getSavedQRs();
             if(!listQR.includes(noMeja)) {
                 listQR.push(noMeja);
@@ -1109,14 +1134,39 @@
             if(activeQRTarjet) hapusQR(activeQRTarjet);
         }
 
-        function playNotificationSound() {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.connect(gain); gain.connect(ctx.destination);
-            osc.frequency.value = 800; osc.type = 'sine';
-            gain.gain.setValueAtTime(0.1, ctx.currentTime);
-            osc.start(); osc.stop(ctx.currentTime + 0.2);
+        // --- AUDIO NOTIFIKASI KHAS WHATSAPP ---
+        function playWhatsAppNotificationSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Bunyi ting-tung pertama
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(1318.51, ctx.currentTime); // E6
+                gain1.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+                
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+                osc1.start();
+                osc1.stop(ctx.currentTime + 0.15);
+
+                // Bunyi ting-tung kedua (nada lebih tinggi ala WhatsApp)
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(2093.00, ctx.currentTime + 0.12); // C7
+                gain2.gain.setValueAtTime(0.2, ctx.currentTime + 0.12);
+                gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+                osc2.start(ctx.currentTime + 0.12);
+                osc2.stop(ctx.currentTime + 0.35);
+            } catch(e) {
+                console.log('Audio error:', e);
+            }
         }
     </script>
 </body>
