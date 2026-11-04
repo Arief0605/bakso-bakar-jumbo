@@ -28,25 +28,34 @@
 
     <!-- ================= 1. VIEW PELANGGAN (REVAMPED & STYLISH) ================= -->
     <div id="view-customer" class="hidden pb-32">
-        <!-- Header Sticky Mewah -->
-        <header class="bg-cardbg/90 backdrop-blur-md border-b border-gray-800/80 sticky top-0 z-50 shadow-xl">
+        <!-- Header Sticky Mewah dengan Slogan & Pilih Meja Interaktif -->
+        <header class="bg-gradient-to-r from-cardbg via-[#1f1f23] to-cardbg border-b border-rose-500/20 sticky top-0 z-50 shadow-2xl">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-                <div class="flex items-center space-x-3">
-                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-rose-600 to-amber-500 text-white flex items-center justify-center font-black text-2xl shadow-lg shadow-rose-600/30">🔥</div>
+                <div class="flex items-center space-x-3.5">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-rose-600 via-rose-500 to-amber-500 text-white flex items-center justify-center font-black text-2xl shadow-lg shadow-rose-600/40">🔥</div>
                     <div>
-                        <h1 class="font-black text-white text-lg tracking-wider uppercase bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">Bakso Bakar Jumbo</h1>
-                        <div class="flex items-center text-xs font-bold text-rose-400 bg-rose-500/10 px-3 py-1 rounded-full w-fit mt-1 border border-rose-500/20 shadow-inner">
-                            <i class="fa-solid fa-fire mr-1.5 animate-pulse text-rose-500"></i> <span id="display-meja">Scan QR Meja</span>
-                        </div>
+                        <h1 class="font-black text-white text-lg tracking-wider uppercase bg-gradient-to-r from-white via-rose-100 to-rose-300 bg-clip-text text-transparent">Bakso Bakar Jumbo</h1>
+                        <p class="text-[11px] text-rose-400 font-bold tracking-wide italic">"Sensasi Bakso Bakar Jumbo Terlezat & Termantap"</p>
                     </div>
                 </div>
-                <div class="relative w-full sm:w-64">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-400">
-                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
-                    </span>
-                    <input type="text" id="search-customer-menu" placeholder="Cari menu bakso & minuman..." oninput="renderCustomerMenu()" class="w-full bg-darkbg border border-gray-800 text-xs text-white pl-10 pr-4 py-2.5 rounded-xl outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 transition shadow-inner">
+                
+                <div class="flex items-center space-x-3 w-full sm:w-auto">
+                    <!-- Tombol Meja Interaktif -->
+                    <button onclick="ubahMejaManual()" class="flex items-center space-x-2 bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/40 px-3.5 py-2 rounded-xl text-xs font-black text-rose-400 transition shadow-inner whitespace-nowrap">
+                        <i class="fa-solid fa-chair text-rose-500"></i>
+                        <span id="display-meja">Pilih Meja Dulu</span>
+                        <i class="fa-solid fa-pen text-[10px] ml-1 opacity-70"></i>
+                    </button>
+
+                    <div class="relative w-full sm:w-56">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-400">
+                            <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                        </span>
+                        <input type="text" id="search-customer-menu" placeholder="Cari menu favorit..." oninput="renderCustomerMenu()" class="w-full bg-darkbg border border-gray-700/80 text-xs text-white pl-10 pr-4 py-2.5 rounded-xl outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 transition shadow-inner">
+                    </div>
                 </div>
             </div>
+
             <!-- Kategori Tab Berwarna -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-3">
                 <div id="customer-kategori-tabs" class="flex space-x-2 overflow-x-auto no-scrollbar py-1">
@@ -66,7 +75,7 @@
         <!-- Floating Cart Bar Premium -->
         <div id="cart-bar" class="fixed bottom-6 left-4 right-4 sm:left-auto sm:right-8 sm:w-[420px] bg-cardbg/95 backdrop-blur-xl border border-gray-700/80 p-4 rounded-3xl shadow-2xl shadow-black/80 hidden flex justify-between items-center z-40 transform translate-y-0 transition-all">
             <div class="flex items-center space-x-3.5">
-                <div class="w-13 h-13 w-12 h-12 bg-gradient-to-tr from-rose-600 to-amber-500 rounded-2xl flex items-center justify-center relative shadow-lg shadow-rose-600/40">
+                <div class="w-12 h-12 bg-gradient-to-tr from-rose-600 to-amber-500 rounded-2xl flex items-center justify-center relative shadow-lg shadow-rose-600/40">
                     <i class="fa-solid fa-basket-shopping text-white text-lg"></i>
                     <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-white text-rose-600 text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-cardbg shadow">0</span>
                 </div>
@@ -82,108 +91,112 @@
     </div>
 
     <!-- ================= 2. VIEW ADMIN (ULTIMATE DASHBOARD PRO) ================= -->
-    <div id="view-admin" class="hidden min-h-screen bg-gray-50 text-gray-800 font-sans">
-        <nav class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-40">
+    <div id="view-admin" class="hidden min-h-screen bg-slate-900 text-gray-100 font-sans">
+        <nav class="bg-cardbg border-b border-gray-800 shadow-xl sticky top-0 z-40">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
                 <div class="flex items-center space-x-3">
-                    <button onclick="toggleSidebar()" class="md:hidden text-gray-600 p-2 focus:outline-none"><i class="fa-solid fa-bars text-lg"></i></button>
-                    <div class="w-8 h-8 rounded bg-rose-600 text-white flex items-center justify-center font-bold text-lg">B</div>
-                    <span class="font-black text-gray-800 text-lg tracking-tight">Admin<span class="text-rose-600">POS PRO+</span></span>
+                    <button onclick="toggleSidebar()" class="md:hidden text-gray-300 p-2 focus:outline-none"><i class="fa-solid fa-bars text-lg"></i></button>
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-600 to-amber-500 text-white flex items-center justify-center font-black text-lg shadow">B</div>
+                    <span class="font-black text-white text-lg tracking-tight">Admin<span class="text-rose-500">POS PRO+</span></span>
                 </div>
-                <span class="flex items-center text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-100">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span> Live Sync Active
-                </span>
+                <div class="flex items-center space-x-3">
+                    <a href="?mode=customer" target="_blank" class="text-xs font-bold text-gray-300 bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg border border-gray-700 transition"><i class="fa-solid fa-external-link mr-1"></i> Buka Menu Pelanggan</a>
+                    <span class="flex items-center text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/20">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span> Live Sync
+                    </span>
+                </div>
             </div>
         </nav>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-6 relative">
             <aside id="admin-sidebar" class="w-full md:w-64 flex-shrink-0 hidden md:block">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-3 space-y-1 sticky top-24">
-                    <button onclick="switchAdminTab('orders')" id="tab-orders" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg bg-rose-50 text-rose-700 transition">
+                <div class="bg-cardbg rounded-2xl shadow-xl border border-gray-800 p-3 space-y-1.5 sticky top-24">
+                    <button onclick="switchAdminTab('orders')" id="tab-orders" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl bg-rose-600 text-white shadow-lg shadow-rose-600/30 transition">
                         <i class="fa-solid fa-fire-burner w-5 text-center"></i> <span>Dapur & Pesanan</span>
                     </button>
-                    <button onclick="switchAdminTab('cashier')" id="tab-cashier" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                    <button onclick="switchAdminTab('cashier')" id="tab-cashier" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-800 hover:text-white transition">
                         <i class="fa-solid fa-cash-register w-5 text-center"></i> <span>Kasir Walk-In</span>
                     </button>
-                    <button onclick="switchAdminTab('menus')" id="tab-menus" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                    <button onclick="switchAdminTab('menus')" id="tab-menus" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-800 hover:text-white transition">
                         <i class="fa-solid fa-utensils w-5 text-center"></i> <span>Kelola Menu & Stok</span>
                     </button>
-                    <button onclick="switchAdminTab('finance')" id="tab-finance" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                    <button onclick="switchAdminTab('finance')" id="tab-finance" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-800 hover:text-white transition">
                         <i class="fa-solid fa-wallet w-5 text-center"></i> <span>Laporan & Keuangan</span>
                     </button>
-                    <button onclick="switchAdminTab('promo')" id="tab-promo" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                    <button onclick="switchAdminTab('promo')" id="tab-promo" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-800 hover:text-white transition">
                         <i class="fa-solid fa-ticket w-5 text-center"></i> <span>Pengaturan Diskon</span>
                     </button>
-                    <button onclick="switchAdminTab('qr')" id="tab-qr" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                    <button onclick="switchAdminTab('qr')" id="tab-qr" class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-800 hover:text-white transition">
                         <i class="fa-solid fa-qrcode w-5 text-center"></i> <span>Cetak QR Meja</span>
                     </button>
                 </div>
             </aside>
 
             <main class="flex-1">
+                <!-- Statistik Dashboard Pro (Desain Gelap Elegan) -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                        <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Omzet Kotor</p>
-                        <h3 class="text-lg font-black text-emerald-600" id="stat-omzet">Rp 0</h3>
+                    <div class="bg-cardbg p-5 rounded-2xl shadow-xl border border-gray-800">
+                        <p class="text-[11px] text-gray-400 font-bold uppercase mb-1">Omzet Kotor</p>
+                        <h3 class="text-lg font-black text-emerald-400" id="stat-omzet">Rp 0</h3>
                     </div>
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                        <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Pengeluaran</p>
-                        <h3 class="text-lg font-black text-rose-600" id="stat-expense">Rp 0</h3>
+                    <div class="bg-cardbg p-5 rounded-2xl shadow-xl border border-gray-800">
+                        <p class="text-[11px] text-gray-400 font-bold uppercase mb-1">Pengeluaran</p>
+                        <h3 class="text-lg font-black text-rose-500" id="stat-expense">Rp 0</h3>
                     </div>
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                        <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Estimasi Laba Bersih</p>
-                        <h3 class="text-lg font-black text-blue-600" id="stat-net-profit">Rp 0</h3>
+                    <div class="bg-cardbg p-5 rounded-2xl shadow-xl border border-gray-800">
+                        <p class="text-[11px] text-gray-400 font-bold uppercase mb-1">Estimasi Laba Bersih</p>
+                        <h3 class="text-lg font-black text-blue-400" id="stat-net-profit">Rp 0</h3>
                     </div>
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                        <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Total Order / Antrean</p>
-                        <h3 class="text-lg font-black text-amber-600"><span id="stat-total-order">0</span> <span class="text-xs text-gray-400 font-normal">/ <span id="stat-pending">0</span> antrean</span></h3>
+                    <div class="bg-cardbg p-5 rounded-2xl shadow-xl border border-gray-800">
+                        <p class="text-[11px] text-gray-400 font-bold uppercase mb-1">Total Order / Antrean</p>
+                        <h3 class="text-lg font-black text-amber-400"><span id="stat-total-order">0</span> <span class="text-xs text-gray-500 font-normal">/ <span id="stat-pending">0</span> antrean</span></h3>
                     </div>
                 </div>
 
                 <!-- Section: Dapur & Pesanan -->
                 <div id="admin-orders-section">
-                    <div class="flex items-center space-x-2 mb-4 bg-white p-2 rounded-lg border border-gray-200 shadow-sm w-fit">
-                        <button onclick="filterOrder('Pending')" class="px-4 py-1.5 rounded text-xs font-bold bg-rose-100 text-rose-700">Masuk & Dimasak</button>
-                        <button onclick="filterOrder('Selesai')" class="px-4 py-1.5 rounded text-xs font-bold text-gray-600 hover:bg-gray-100">Riwayat Selesai</button>
-                        <button onclick="filterOrder('Semua')" class="px-4 py-1.5 rounded text-xs font-bold text-gray-600 hover:bg-gray-100">Semua Data</button>
+                    <div class="flex items-center space-x-2 mb-4 bg-cardbg p-2 rounded-xl border border-gray-800 shadow-xl w-fit">
+                        <button onclick="filterOrder('Pending')" id="ord-btn-Pending" class="px-4 py-2 rounded-lg text-xs font-black bg-rose-600 text-white shadow">Masuk & Dimasak</button>
+                        <button onclick="filterOrder('Selesai')" id="ord-btn-Selesai" class="px-4 py-2 rounded-lg text-xs font-bold text-gray-400 hover:text-white">Riwayat Selesai</button>
+                        <button onclick="filterOrder('Semua')" id="ord-btn-Semua" class="px-4 py-2 rounded-lg text-xs font-bold text-gray-400 hover:text-white">Semua Data</button>
                     </div>
                     <div id="admin-order-list" class="grid grid-cols-1 lg:grid-cols-2 gap-4"></div>
                 </div>
 
                 <!-- Section: Kasir Walk-In -->
                 <div id="admin-cashier-section" class="hidden space-y-6">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                        <h3 class="font-bold text-gray-900 mb-4 border-b pb-2">Buat Pesanan Manual (Kasir Walk-in)</h3>
+                    <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800">
+                        <h3 class="font-bold text-white mb-4 border-b border-gray-800 pb-3">Buat Pesanan Manual (Kasir Walk-in)</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label class="block text-xs font-bold text-gray-600 mb-1">Nama Pembeli</label>
-                                <input type="text" id="cashier-nama" placeholder="Cth: Budi" class="w-full bg-gray-50 border border-gray-200 p-2.5 rounded-lg text-sm outline-none">
+                                <label class="block text-xs font-bold text-gray-400 mb-1">Nama Pembeli</label>
+                                <input type="text" id="cashier-nama" placeholder="Cth: Budi" class="w-full bg-darkbg border border-gray-700 text-white p-3 rounded-xl text-sm outline-none focus:border-rose-500">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-600 mb-1">Nomor Meja / Takeaway</label>
-                                <input type="text" id="cashier-meja" placeholder="Cth: Meja 03 / Takeaway" class="w-full bg-gray-50 border border-gray-200 p-2.5 rounded-lg text-sm outline-none">
+                                <label class="block text-xs font-bold text-gray-400 mb-1">Nomor Meja / Takeaway</label>
+                                <input type="text" id="cashier-meja" placeholder="Cth: Meja 03 / Takeaway" class="w-full bg-darkbg border border-gray-700 text-white p-3 rounded-xl text-sm outline-none focus:border-rose-500">
                             </div>
                         </div>
-                        <p class="text-xs font-bold text-gray-700 mb-2">Pilih Menu:</p>
+                        <p class="text-xs font-bold text-gray-300 mb-2">Pilih Menu:</p>
                         <div id="cashier-menu-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4"></div>
-                        <div class="bg-gray-50 p-4 rounded-xl border flex justify-between items-center">
+                        <div class="bg-darkbg p-4 rounded-xl border border-gray-800 flex justify-between items-center">
                             <div>
-                                <p class="text-xs text-gray-500 font-bold">Total Tagihan Kasir:</p>
-                                <p class="text-lg font-black text-rose-600" id="cashier-total">Rp 0</p>
+                                <p class="text-xs text-gray-400 font-bold">Total Tagihan Kasir:</p>
+                                <p class="text-xl font-black text-rose-500" id="cashier-total">Rp 0</p>
                             </div>
-                            <button onclick="prosesPesananKasir()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-6 py-2.5 rounded-lg text-xs transition">Proses ke Dapur</button>
+                            <button onclick="prosesPesananKasir()" class="bg-rose-600 hover:bg-rose-700 text-white font-black px-6 py-3 rounded-xl text-xs transition shadow-lg shadow-rose-600/30">Proses ke Dapur</button>
                         </div>
                     </div>
                 </div>
 
                 <!-- Section: Kelola Menu & Stok -->
                 <div id="admin-menus-section" class="hidden space-y-6">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                        <h3 class="font-bold text-gray-900 mb-4 border-b pb-2">Tambah Menu Baru</h3>
+                    <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800">
+                        <h3 class="font-bold text-white mb-4 border-b border-gray-800 pb-3">Tambah Menu Baru</h3>
                         <form id="form-add-menu" onsubmit="tambahMenuBaru(event)" class="flex flex-col md:flex-row gap-6">
                             <div class="w-full md:w-1/3">
-                                <label class="block text-xs font-bold text-gray-600 mb-2">Foto Produk</label>
-                                <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center hover:bg-gray-50 transition cursor-pointer relative overflow-hidden group h-40 flex flex-col items-center justify-center">
+                                <label class="block text-xs font-bold text-gray-400 mb-2">Foto Produk</label>
+                                <div class="border-2 border-dashed border-gray-700 rounded-2xl p-4 text-center hover:bg-gray-800 transition cursor-pointer relative overflow-hidden group h-40 flex flex-col items-center justify-center">
                                     <input type="file" id="menu-gambar-file" accept="image/*" onchange="previewMenuImage(this)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" required>
                                     <img id="preview-img" src="" class="absolute inset-0 w-full h-full object-cover hidden">
                                     <div id="upload-placeholder" class="text-gray-400 group-hover:text-rose-500 transition">
@@ -195,24 +208,24 @@
                             </div>
                             <div class="w-full md:w-2/3 space-y-3">
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-600 mb-1">Nama Menu</label>
-                                    <input type="text" id="menu-nama" placeholder="Contoh: Bakso Bakar Keju" required class="w-full bg-gray-50 border border-gray-200 p-2.5 rounded-lg text-sm outline-none">
+                                    <label class="block text-xs font-bold text-gray-400 mb-1">Nama Menu</label>
+                                    <input type="text" id="menu-nama" placeholder="Contoh: Bakso Bakar Keju" required class="w-full bg-darkbg border border-gray-700 text-white p-3 rounded-xl text-sm outline-none focus:border-rose-500">
                                 </div>
-                                <div class="grid grid-cols-2 gap-2">
+                                <div class="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label class="block text-xs font-bold text-gray-600 mb-1">Harga (Rp)</label>
-                                        <input type="number" id="menu-harga" placeholder="15000" required class="w-full bg-gray-50 border border-gray-200 p-2.5 rounded-lg text-sm outline-none">
+                                        <label class="block text-xs font-bold text-gray-400 mb-1">Harga (Rp)</label>
+                                        <input type="number" id="menu-harga" placeholder="15000" required class="w-full bg-darkbg border border-gray-700 text-white p-3 rounded-xl text-sm outline-none focus:border-rose-500">
                                     </div>
                                     <div>
-                                        <label class="block text-xs font-bold text-gray-600 mb-1">Kategori</label>
-                                        <select id="menu-kategori" class="w-full bg-gray-50 border border-gray-200 p-2.5 rounded-lg text-sm outline-none">
+                                        <label class="block text-xs font-bold text-gray-400 mb-1">Kategori</label>
+                                        <select id="menu-kategori" class="w-full bg-darkbg border border-gray-700 text-white p-3 rounded-xl text-sm outline-none focus:border-rose-500">
                                             <option value="Bakso Bakar">Bakso Bakar</option>
                                             <option value="Minuman">Minuman</option>
                                             <option value="Extra">Extra</option>
                                         </select>
                                     </div>
                                 </div>
-                                <button type="submit" class="w-full bg-gray-900 text-white font-bold py-2.5 rounded-lg text-sm hover:bg-gray-800 transition shadow-sm">Simpan Menu</button>
+                                <button type="submit" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl text-sm transition shadow-lg shadow-rose-600/30">Simpan Menu Baru</button>
                             </div>
                         </form>
                     </div>
@@ -221,69 +234,69 @@
 
                 <!-- Section: Keuangan, Rekap & Pengeluaran -->
                 <div id="admin-finance-section" class="hidden space-y-6">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 border-b pb-3 gap-3">
-                            <h3 class="font-bold text-gray-900">Rekap Laporan & Keuangan Bisnis</h3>
-                            <div class="flex items-center space-x-1 bg-gray-100 p-1 rounded-lg">
-                                <button onclick="setFinanceFilter('hari')" id="fin-btn-hari" class="px-3 py-1 text-xs font-bold rounded-md bg-white text-gray-800 shadow-sm">Hari Ini</button>
-                                <button onclick="setFinanceFilter('minggu')" id="fin-btn-minggu" class="px-3 py-1 text-xs font-bold rounded-md text-gray-600 hover:text-gray-900">7 Hari</button>
-                                <button onclick="setFinanceFilter('bulan')" id="fin-btn-bulan" class="px-3 py-1 text-xs font-bold rounded-md text-gray-600 hover:text-gray-900">Bulan Ini</button>
-                                <button onclick="setFinanceFilter('semua')" id="fin-btn-semua" class="px-3 py-1 text-xs font-bold rounded-md text-gray-600 hover:text-gray-900">Semua</button>
+                    <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-gray-800 pb-4 gap-3">
+                            <h3 class="font-bold text-white">Rekap Laporan & Keuangan Bisnis</h3>
+                            <div class="flex items-center space-x-1 bg-darkbg p-1 rounded-xl border border-gray-800">
+                                <button onclick="setFinanceFilter('hari')" id="fin-btn-hari" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-rose-600 text-white shadow">Hari Ini</button>
+                                <button onclick="setFinanceFilter('minggu')" id="fin-btn-minggu" class="px-3 py-1.5 text-xs font-bold rounded-lg text-gray-400 hover:text-white">7 Hari</button>
+                                <button onclick="setFinanceFilter('bulan')" id="fin-btn-bulan" class="px-3 py-1.5 text-xs font-bold rounded-lg text-gray-400 hover:text-white">Bulan Ini</button>
+                                <button onclick="setFinanceFilter('semua')" id="fin-btn-semua" class="px-3 py-1.5 text-xs font-bold rounded-lg text-gray-400 hover:text-white">Semua</button>
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 bg-darkbg p-4 rounded-2xl border border-gray-800">
                             <div>
-                                <p class="text-xs text-gray-500 font-bold uppercase">Omzet Periode Ini</p>
-                                <p class="text-xl font-black text-emerald-600" id="report-omzet">Rp 0</p>
+                                <p class="text-xs text-gray-400 font-bold uppercase">Omzet Periode Ini</p>
+                                <p class="text-xl font-black text-emerald-400" id="report-omzet">Rp 0</p>
                             </div>
                             <div>
-                                <p class="text-xs text-gray-500 font-bold uppercase">Pengeluaran Periode Ini</p>
-                                <p class="text-xl font-black text-rose-600" id="report-expense">Rp 0</p>
+                                <p class="text-xs text-gray-400 font-bold uppercase">Pengeluaran Periode Ini</p>
+                                <p class="text-xl font-black text-rose-500" id="report-expense">Rp 0</p>
                             </div>
                             <div>
-                                <p class="text-xs text-gray-500 font-bold uppercase">Laba Bersih Periode Ini</p>
-                                <p class="text-xl font-black text-blue-600" id="report-profit">Rp 0</p>
+                                <p class="text-xs text-gray-400 font-bold uppercase">Laba Bersih Periode Ini</p>
+                                <p class="text-xl font-black text-blue-400" id="report-profit">Rp 0</p>
                             </div>
                         </div>
-                        <h4 class="font-bold text-xs text-gray-700 uppercase mb-2">Tambah Catat Pengeluaran / Modal</h4>
+                        <h4 class="font-bold text-xs text-gray-300 uppercase mb-2">Tambah Catat Pengeluaran / Modal</h4>
                         <form onsubmit="tambahPengeluaran(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-                            <input type="text" id="exp-ket" placeholder="Keterangan (Cth: Beli Tusuk Sate)" required class="bg-gray-50 border border-gray-200 p-2.5 rounded-lg text-sm outline-none">
-                            <input type="number" id="exp-nominal" placeholder="Nominal (Cth: 50000)" required class="bg-gray-50 border border-gray-200 p-2.5 rounded-lg text-sm outline-none">
-                            <button type="submit" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 rounded-lg text-sm transition">Catat Pengeluaran</button>
+                            <input type="text" id="exp-ket" placeholder="Keterangan (Cth: Beli Tusuk Sate)" required class="bg-darkbg border border-gray-700 text-white p-3 rounded-xl text-sm outline-none focus:border-rose-500">
+                            <input type="number" id="exp-nominal" placeholder="Nominal (Cth: 50000)" required class="bg-darkbg border border-gray-700 text-white p-3 rounded-xl text-sm outline-none focus:border-rose-500">
+                            <button type="submit" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl text-sm transition">Catat Pengeluaran</button>
                         </form>
-                        <h4 class="font-bold text-xs text-gray-700 uppercase mb-2">Riwayat Pengeluaran</h4>
+                        <h4 class="font-bold text-xs text-gray-300 uppercase mb-2">Riwayat Pengeluaran</h4>
                         <div id="expense-list" class="space-y-2 mb-6"></div>
-                        <h4 class="font-bold text-xs text-gray-700 uppercase mb-2">Menu Paling Laris Terjual</h4>
+                        <h4 class="font-bold text-xs text-gray-300 uppercase mb-2">Menu Paling Laris Terjual</h4>
                         <div id="top-products-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
                     </div>
                 </div>
 
                 <!-- Section: Pengaturan Promo Diskon -->
                 <div id="admin-promo-section" class="hidden space-y-6">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 max-w-md">
-                        <h3 class="font-bold text-gray-900 mb-2 border-b pb-2">Pengaturan Diskon Toko (%)</h3>
-                        <p class="text-xs text-gray-500 mb-4">Berikan diskon otomatis yang langsung memotong total tagihan pelanggan saat checkout.</p>
-                        <label class="block text-xs font-bold text-gray-600 mb-1">Besaran Diskon Persen (%)</label>
+                    <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800 max-w-md">
+                        <h3 class="font-bold text-white mb-2 border-b border-gray-800 pb-3">Pengaturan Diskon Toko (%)</h3>
+                        <p class="text-xs text-gray-400 mb-4">Berikan diskon otomatis yang langsung memotong total tagihan pelanggan saat checkout.</p>
+                        <label class="block text-xs font-bold text-gray-300 mb-1">Besaran Diskon Persen (%)</label>
                         <div class="flex space-x-2">
-                            <input type="number" id="input-diskon-val" placeholder="Cth: 10 untuk diskon 10%" class="w-full bg-gray-50 border border-gray-200 p-2.5 rounded-lg text-sm outline-none">
-                            <button onclick="simpanDiskon()" class="bg-gray-900 text-white font-bold px-5 py-2.5 rounded-lg text-sm">Simpan</button>
+                            <input type="number" id="input-diskon-val" placeholder="Cth: 10 untuk diskon 10%" class="w-full bg-darkbg border border-gray-700 text-white p-3 rounded-xl text-sm outline-none focus:border-rose-500">
+                            <button onclick="simpanDiskon()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-5 py-3 rounded-xl text-sm transition">Simpan</button>
                         </div>
                     </div>
                 </div>
 
                 <!-- Section: Cetak QR -->
                 <div id="admin-qr-section" class="hidden">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 max-w-sm">
-                        <h3 class="font-black text-gray-900 mb-2 border-b pb-2">Buat QR Code Meja</h3>
-                        <label class="block text-xs font-bold text-gray-600 mb-1 mt-3">Ketik Nomor Meja</label>
+                    <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800 max-w-sm">
+                        <h3 class="font-black text-white mb-2 border-b border-gray-800 pb-3">Buat QR Code Meja</h3>
+                        <label class="block text-xs font-bold text-gray-300 mb-1 mt-3">Ketik Nomor Meja</label>
                         <div class="flex space-x-2 mb-4">
-                            <input type="text" id="input-no-meja" placeholder="Cth: 01" class="w-full bg-gray-50 border border-gray-200 p-2.5 rounded-lg text-center font-bold outline-none">
-                            <button onclick="buatQR()" class="bg-gray-900 text-white font-bold px-4 py-2.5 rounded-lg hover:bg-gray-800">Buat</button>
+                            <input type="text" id="input-no-meja" placeholder="Cth: 01" class="w-full bg-darkbg border border-gray-700 text-white p-3 rounded-xl text-center font-bold outline-none focus:border-rose-500">
+                            <button onclick="buatQR()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-5 py-3 rounded-xl transition">Buat</button>
                         </div>
-                        <div id="qr-result-container" class="hidden flex-col items-center border-2 border-dashed border-gray-200 p-4 rounded-xl bg-gray-50">
-                            <h1 id="qr-meja-title" class="text-xl font-black mb-3 uppercase text-gray-900 tracking-widest">Meja --</h1>
-                            <div id="qrcode-box" class="p-3 bg-white rounded-xl shadow-sm border border-gray-100 mb-4"></div>
-                            <button id="btn-print-qr" onclick="window.print()" class="w-full bg-rose-600 text-white font-bold py-2 rounded-lg text-sm shadow-sm"><i class="fa-solid fa-print mr-2"></i>Cetak QR Ini</button>
+                        <div id="qr-result-container" class="hidden flex-col items-center border-2 border-dashed border-gray-700 p-4 rounded-2xl bg-darkbg">
+                            <h1 id="qr-meja-title" class="text-xl font-black mb-3 uppercase text-white tracking-widest">Meja --</h1>
+                            <div id="qrcode-box" class="p-3 bg-white rounded-xl shadow-xl mb-4"></div>
+                            <button id="btn-print-qr" onclick="window.print()" class="w-full bg-rose-600 text-white font-bold py-2.5 rounded-xl text-sm shadow-sm"><i class="fa-solid fa-print mr-2"></i>Cetak QR Ini</button>
                         </div>
                     </div>
                 </div>
@@ -345,7 +358,7 @@
         let orders = [];
         let expenses = [];
         let globalDiskon = 0;
-        let currentMeja = 'Pilih Meja';
+        let currentMeja = '';
         let currentFilter = 'Pending';
         let activeKategoriPelanggan = 'Semua';
         let cashierCart = {};
@@ -361,37 +374,56 @@
             if (mode === 'admin') {
                 document.getElementById('view-admin').classList.remove('hidden');
                 document.body.classList.remove('bg-darkbg');
-                document.body.classList.add('bg-gray-50');
+                document.body.classList.add('bg-slate-900');
                 await fetchMenus();
                 await fetchOrders();
                 await fetchExpenses();
                 setupRealtimeSubscription();
             } else {
                 document.getElementById('view-customer').classList.remove('hidden');
-                if (mejaParam) currentMeja = `Meja ${mejaParam}`;
-                document.getElementById('display-meja').innerText = currentMeja;
-                document.getElementById('modal-meja-text').innerText = currentMeja;
+                if (mejaParam) {
+                    currentMeja = `Meja ${mejaParam}`;
+                } else {
+                    let savedMeja = localStorage.getItem('bakar_meja_pelanggan');
+                    if(savedMeja) currentMeja = savedMeja;
+                    else currentMeja = 'Meja 01';
+                }
+                updateMejaDisplay();
                 await fetchMenus();
             }
+        }
+
+        function ubahMejaManual() {
+            let nomor = prompt("Masukkan Nomor Meja / Takeaway Anda:", "01");
+            if(nomor) {
+                currentMeja = `Meja ${nomor}`;
+                localStorage.setItem('bakar_meja_pelanggan', currentMeja);
+                updateMejaDisplay();
+            }
+        }
+
+        function updateMejaDisplay() {
+            document.getElementById('display-meja').innerText = currentMeja;
+            document.getElementById('modal-meja-text').innerText = currentMeja;
         }
 
         function toggleSidebar() {
             const sidebar = document.getElementById('admin-sidebar');
             if(sidebar.classList.contains('hidden')) {
                 sidebar.classList.remove('hidden');
-                sidebar.classList.add('absolute', 'z-50', 'bg-white', 'shadow-xl', 'w-64');
+                sidebar.classList.add('absolute', 'z-50', 'bg-cardbg', 'shadow-2xl', 'w-64', 'border', 'border-gray-800');
             } else {
                 sidebar.classList.add('hidden');
-                sidebar.classList.remove('absolute', 'z-50', 'bg-white', 'shadow-xl', 'w-64');
+                sidebar.classList.remove('absolute', 'z-50', 'bg-cardbg', 'shadow-2xl', 'w-64', 'border', 'border-gray-800');
             }
         }
 
         function switchAdminTab(tab) {
             ['orders', 'cashier', 'menus', 'finance', 'promo', 'qr'].forEach(t => {
-                document.getElementById(`tab-${t}`).className = "w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg text-gray-600 hover:bg-gray-50 transition";
+                document.getElementById(`tab-${t}`).className = "w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-800 hover:text-white transition";
                 document.getElementById(`admin-${t}-section`).classList.add('hidden');
             });
-            document.getElementById(`tab-${tab}`).className = "w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg bg-rose-50 text-rose-700 transition";
+            document.getElementById(`tab-${tab}`).className = "w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl bg-rose-600 text-white shadow-lg shadow-rose-600/30 transition";
             document.getElementById(`admin-${tab}-section`).classList.remove('hidden');
             if(tab === 'cashier') renderCashierMenu();
             if(tab === 'finance') { renderExpensesList(); renderFinanceReport(); }
@@ -433,7 +465,7 @@
         function setupRealtimeSubscription() {
             supabaseClient.channel('public:orders').on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, payload => {
                 fetchOrders();
-                if(payload.new.status === 'Pending') playNotificationSound();
+                if(payload.new && payload.new.status === 'Pending') playNotificationSound();
             }).subscribe();
         }
 
@@ -486,7 +518,7 @@
                     let kategoriLabel = m.kategori || 'Bakso Bakar';
 
                     html += `
-                        <div class="bg-cardbg rounded-3xl overflow-hidden shadow-xl border border-gray-800/80 flex flex-col relative group transition duration-300 hover:border-rose-500/50 hover:shadow-rose-500/10 ${isHabis ? 'opacity-60 grayscale' : ''}">
+                        <div class="bg-cardbg rounded-3xl overflow-hidden shadow-xl border border-gray-800 flex flex-col relative group transition duration-300 hover:border-rose-500/50 hover:shadow-rose-500/10 ${isHabis ? 'opacity-60 grayscale' : ''}">
                             <div class="h-36 sm:h-44 w-full bg-gray-900 relative overflow-hidden">
                                 <img src="${imgSrc}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                                 <div class="absolute inset-0 bg-gradient-to-t from-cardbg via-transparent to-transparent opacity-80"></div>
@@ -499,9 +531,9 @@
                                     <p class="font-black text-rose-500 text-sm sm:text-base mb-3">Rp ${m.price.toLocaleString()}</p>
                                 </div>
                                 ${!isHabis ? `
-                                <div class="space-y-2.5 mt-auto pt-2 border-t border-gray-800/60">
+                                <div class="space-y-2.5 mt-auto pt-2 border-t border-gray-800">
                                     <div class="relative">
-                                        <select onchange="updateLevel(${m.id}, this.value)" class="w-full bg-darkbg border border-gray-700/80 text-[11px] font-bold text-gray-300 py-2 px-3 rounded-xl outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 appearance-none cursor-pointer">
+                                        <select onchange="updateLevel(${m.id}, this.value)" class="w-full bg-darkbg border border-gray-700 text-[11px] font-bold text-gray-300 py-2 px-3 rounded-xl outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 appearance-none cursor-pointer">
                                             <option value="Tidak Pedas" ${level === 'Tidak Pedas' ? 'selected' : ''}>✨ Ori / Tidak Pedas</option>
                                             <option value="Pedas Sedang" ${level === 'Pedas Sedang' ? 'selected' : ''}>🌶️ Pedas Sedang</option>
                                             <option value="Pedas Gila" ${level === 'Pedas Gila' ? 'selected' : ''}>🔥 Pedas Gila</option>
@@ -515,7 +547,7 @@
                                             <i class="fa-solid fa-plus text-[10px]"></i> <span>Pesan Menu</span>
                                         </button>
                                     ` : `
-                                        <div class="flex justify-between items-center bg-darkbg p-1 rounded-xl border border-gray-700/80 shadow-inner">
+                                        <div class="flex justify-between items-center bg-darkbg p-1 rounded-xl border border-gray-700 shadow-inner">
                                             <button onclick="ubahQty(${m.id}, -1)" class="w-8 h-8 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-black transition flex items-center justify-center">-</button>
                                             <span class="font-black text-white text-sm px-2">${qty}</span>
                                             <button onclick="ubahQty(${m.id}, 1)" class="w-8 h-8 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-sm font-black transition flex items-center justify-center">+</button>
@@ -556,7 +588,10 @@
         }
 
         function openCheckoutModal() {
-            if(currentMeja === 'Pilih Meja' || !currentMeja) return alert('Silakan Scan QR Meja Anda terlebih dahulu!');
+            if(!currentMeja) {
+                ubahMejaManual();
+                if(!currentMeja) return;
+            }
             let totalPrice = 0; let html = '';
             Object.keys(cart).forEach(id => {
                 let m = menus.find(x => x.id == id);
@@ -611,7 +646,7 @@
                 let { error } = await supabaseClient.from('orders').insert([newOrder]);
                 if (!error) {
                     cart = {}; closeCheckoutModal(); renderCustomerMenu();
-                    alert('Pesanan dikirim! Koki sedang menyiapkan.');
+                    alert('Pesanan berhasil dikirim ke Dapur!');
                 } else alert('Error: ' + error.message);
             }
             reader.readAsDataURL(fileInput);
@@ -622,16 +657,16 @@
             menus.filter(m => m.status !== 'Habis').forEach(m => {
                 let qty = cashierCart[m.id] || 0;
                 html += `
-                    <div class="bg-gray-50 p-3 rounded-xl border flex flex-col justify-between">
+                    <div class="bg-darkbg p-3 rounded-xl border border-gray-800 flex flex-col justify-between">
                         <div>
-                            <p class="font-bold text-xs text-gray-900">${m.name}</p>
-                            <p class="text-xs text-rose-600 font-bold">Rp ${m.price.toLocaleString()}</p>
+                            <p class="font-bold text-xs text-white">${m.name}</p>
+                            <p class="text-xs text-rose-500 font-bold">Rp ${m.price.toLocaleString()}</p>
                         </div>
                         <div class="flex justify-between items-center mt-3">
-                            <span class="text-xs font-bold text-gray-500">Qty: ${qty}</span>
+                            <span class="text-xs font-bold text-gray-400">Qty: ${qty}</span>
                             <div class="space-x-1">
-                                <button onclick="ubahCashierQty(${m.id}, -1)" class="px-2 py-1 bg-gray-200 rounded font-bold text-xs">-</button>
-                                <button onclick="ubahCashierQty(${m.id}, 1)" class="px-2 py-1 bg-rose-600 text-white rounded font-bold text-xs">+</button>
+                                <button onclick="ubahCashierQty(${m.id}, -1)" class="px-2.5 py-1 bg-gray-800 text-white rounded font-bold text-xs">-</button>
+                                <button onclick="ubahCashierQty(${m.id}, 1)" class="px-2.5 py-1 bg-rose-600 text-white rounded font-bold text-xs">+</button>
                             </div>
                         </div>
                     </div>
@@ -684,7 +719,20 @@
             } else alert('Error: ' + error.message);
         }
 
-        function filterOrder(status) { currentFilter = status; renderAdminOrders(); }
+        function filterOrder(status) {
+            currentFilter = status;
+            ['Pending', 'Selesai', 'Semua'].forEach(s => {
+                let btn = document.getElementById(`ord-btn-${s}`);
+                if(btn) {
+                    if(s === status) {
+                        btn.className = "px-4 py-2 rounded-lg text-xs font-black bg-rose-600 text-white shadow";
+                    } else {
+                        btn.className = "px-4 py-2 rounded-lg text-xs font-bold text-gray-400 hover:text-white";
+                    }
+                }
+            });
+            renderAdminOrders();
+        }
 
         function renderAdminOrders() {
             let html = '';
@@ -693,31 +741,31 @@
                                  orders.filter(o => o.status === currentFilter));
 
             if(filteredOrders.length === 0) {
-                html = `<div class="col-span-full text-center py-10 font-bold text-gray-400 border-2 border-dashed border-gray-200 rounded-xl">Tidak ada pesanan.</div>`;
+                html = `<div class="col-span-full text-center py-12 font-bold text-gray-500 border-2 border-dashed border-gray-800 rounded-2xl">Tidak ada data pesanan.</div>`;
             } else {
                 filteredOrders.forEach(o => {
-                    let badge = o.status === 'Pending' ? 'bg-rose-100 text-rose-700' : (o.status === 'Diproses' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700');
-                    let itemsHtml = Array.isArray(o.items) ? o.items.map(i => `<div class="flex justify-between text-xs font-bold text-gray-700 mb-1"><span>${i.qty}x ${i.name}</span> <span class="text-rose-500">${i.note}</span></div>`).join('') : '';
+                    let badge = o.status === 'Pending' ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' : (o.status === 'Diproses' ? 'bg-blue-500/10 text-blue-400 border-blue-500/30' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30');
+                    let itemsHtml = Array.isArray(o.items) ? o.items.map(i => `<div class="flex justify-between text-xs font-bold text-gray-300 mb-1"><span>${i.qty}x ${i.name}</span> <span class="text-rose-400">${i.note}</span></div>`).join('') : '';
                     
                     html += `
-                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between print-area">
+                        <div class="bg-cardbg p-5 rounded-2xl border border-gray-800 shadow-xl flex flex-col justify-between print-area">
                             <div>
                                 <div class="flex justify-between items-center mb-3">
-                                    <span class="font-black text-sm uppercase text-gray-900">${o.meja}</span>
-                                    <span class="text-[10px] px-2 py-0.5 rounded font-bold border border-current ${badge}">${o.status}</span>
+                                    <span class="font-black text-sm uppercase text-white">${o.meja}</span>
+                                    <span class="text-[10px] px-2.5 py-1 rounded-full font-black border ${badge}">${o.status}</span>
                                 </div>
-                                <p class="text-xs font-bold text-gray-500 mb-3">Oleh: <span class="text-gray-900">${o.nama}</span> <span class="text-[10px] text-gray-400 ml-2">(${o.id})</span></p>
-                                <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 mb-4">${itemsHtml}</div>
+                                <p class="text-xs font-bold text-gray-400 mb-3">Oleh: <span class="text-white">${o.nama}</span> <span class="text-[10px] text-gray-500 ml-2">(${o.id})</span></p>
+                                <div class="bg-darkbg p-3.5 rounded-xl border border-gray-800 mb-4">${itemsHtml}</div>
                                 <div class="flex items-center space-x-3 mb-4">
-                                    <img src="${o.bukti || ''}" class="w-12 h-12 object-cover rounded bg-gray-100 border cursor-pointer" onclick="window.open('${o.bukti}')">
-                                    <div><p class="text-[10px] font-bold text-gray-400">Total Pembayaran</p><p class="text-sm font-black text-emerald-600">Rp ${(o.total || 0).toLocaleString()}</p></div>
+                                    <img src="${o.bukti || ''}" class="w-12 h-12 object-cover rounded-xl bg-gray-800 border border-gray-700 cursor-pointer" onclick="window.open('${o.bukti}')">
+                                    <div><p class="text-[10px] font-bold text-gray-500 uppercase">Total Pembayaran</p><p class="text-sm font-black text-emerald-400">Rp ${(o.total || 0).toLocaleString()}</p></div>
                                 </div>
                             </div>
-                            <div class="flex space-x-2 pt-3 border-t border-gray-100">
-                                <button onclick="window.print()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-xs font-bold transition"><i class="fa-solid fa-print"></i></button>
-                                ${o.status === 'Selesai' ? `<button class="flex-1 bg-emerald-50 text-emerald-600 py-2 rounded text-xs font-bold" disabled><i class="fa-solid fa-check mr-1"></i>Selesai</button>` : `
-                                <button onclick="ubahStatusOrder('${o.id}', 'Diproses')" class="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 rounded-lg text-xs font-bold transition">Proses</button>
-                                <button onclick="ubahStatusOrder('${o.id}', 'Selesai')" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-lg text-xs font-bold transition">Selesai</button>`}
+                            <div class="flex space-x-2 pt-3 border-t border-gray-800">
+                                <button onclick="window.print()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-3.5 py-2 rounded-xl text-xs font-bold transition"><i class="fa-solid fa-print"></i></button>
+                                ${o.status === 'Selesai' ? `<button class="flex-1 bg-emerald-500/20 text-emerald-400 py-2 rounded-xl text-xs font-bold border border-emerald-500/30" disabled><i class="fa-solid fa-check mr-1"></i>Selesai</button>` : `
+                                <button onclick="ubahStatusOrder('${o.id}', 'Diproses')" class="flex-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 border border-blue-500/30 py-2 rounded-xl text-xs font-bold transition">Proses</button>
+                                <button onclick="ubahStatusOrder('${o.id}', 'Selesai')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-xl text-xs font-bold transition">Selesai</button>`}
                             </div>
                         </div>
                     `;
@@ -748,10 +796,12 @@
             currentFinanceFilter = filter;
             ['hari', 'minggu', 'bulan', 'semua'].forEach(f => {
                 let btn = document.getElementById(`fin-btn-${f}`);
-                if(f === filter) {
-                    btn.className = "px-3 py-1 text-xs font-bold rounded-md bg-white text-gray-800 shadow-sm";
-                } else {
-                    btn.className = "px-3 py-1 text-xs font-bold rounded-md text-gray-600 hover:text-gray-900";
+                if(btn) {
+                    if(f === filter) {
+                        btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-rose-600 text-white shadow";
+                    } else {
+                        btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg text-gray-400 hover:text-white";
+                    }
                 }
             });
             renderFinanceReport();
@@ -811,12 +861,12 @@
             let sortedProducts = Object.keys(productCounts).map(name => ({ name, qty: productCounts[name] })).sort((a,b) => b.qty - a.qty);
             let prodHtml = '';
             sortedProducts.slice(0, 4).forEach((p, idx) => {
-                prodHtml += `<div class="bg-gray-50 p-2.5 rounded-lg border flex justify-between items-center text-xs">
-                    <span class="font-bold text-gray-800">#${idx+1} ${p.name}</span>
-                    <span class="font-black text-rose-600 bg-rose-50 px-2 py-1 rounded">${p.qty} Terjual</span>
+                prodHtml += `<div class="bg-darkbg p-3 rounded-xl border border-gray-800 flex justify-between items-center text-xs">
+                    <span class="font-bold text-white">#${idx+1} ${p.name}</span>
+                    <span class="font-black text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-lg">${p.qty} Terjual</span>
                 </div>`;
             });
-            document.getElementById('top-products-list').innerHTML = prodHtml || '<p class="text-xs text-gray-400">Belum ada data penjualan pada periode ini.</p>';
+            document.getElementById('top-products-list').innerHTML = prodHtml || '<p class="text-xs text-gray-500">Belum ada data penjualan pada periode ini.</p>';
         }
 
         async function ubahStatusOrder(id, status) {
@@ -839,12 +889,12 @@
         function renderExpensesList() {
             let html = '';
             expenses.forEach(e => {
-                html += `<div class="flex justify-between items-center text-xs bg-gray-50 p-2.5 rounded-lg border">
-                    <span class="font-bold text-gray-800">${e.keterangan}</span>
-                    <span class="font-black text-rose-600">Rp ${(e.nominal || 0).toLocaleString()}</span>
+                html += `<div class="flex justify-between items-center text-xs bg-darkbg p-3 rounded-xl border border-gray-800">
+                    <span class="font-bold text-white">${e.keterangan}</span>
+                    <span class="font-black text-rose-500">Rp ${(e.nominal || 0).toLocaleString()}</span>
                 </div>`;
             });
-            document.getElementById('expense-list').innerHTML = html || '<p class="text-xs text-gray-400">Belum ada catatan pengeluaran.</p>';
+            document.getElementById('expense-list').innerHTML = html || '<p class="text-xs text-gray-500">Belum ada catatan pengeluaran.</p>';
         }
 
         function simpanDiskon() {
@@ -860,18 +910,18 @@
                 let isHabis = m.status === 'Habis';
                 let imgSrc = m.img || 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=300&q=80';
                 html += `
-                    <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                    <div class="bg-cardbg p-3.5 rounded-2xl border border-gray-800 shadow-xl flex items-center justify-between">
                         <div class="flex items-center space-x-3">
-                            <img src="${imgSrc}" class="w-12 h-12 rounded-lg object-cover bg-gray-100 border">
+                            <img src="${imgSrc}" class="w-12 h-12 rounded-xl object-cover bg-gray-800 border border-gray-700">
                             <div>
-                                <p class="font-bold text-xs text-gray-900">${m.name}</p>
-                                <p class="text-xs text-emerald-600 font-black">Rp ${m.price.toLocaleString()}</p>
-                                <span class="text-[10px] font-bold px-2 py-0.5 rounded ${isHabis ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}">${m.status || 'Tersedia'}</span>
+                                <p class="font-bold text-xs text-white">${m.name}</p>
+                                <p class="text-xs text-emerald-400 font-black">Rp ${m.price.toLocaleString()}</p>
+                                <span class="text-[10px] font-black px-2 py-0.5 rounded-full ${isHabis ? 'bg-rose-500/20 text-rose-400' : 'bg-emerald-500/20 text-emerald-400'}">${m.status || 'Tersedia'}</span>
                             </div>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <button onclick="toggleMenuStatus(${m.id}, '${m.status || 'Tersedia'}')" class="px-2.5 py-1 rounded text-xs font-bold ${isHabis ? 'bg-green-600 text-white' : 'bg-amber-500 text-white'}">${isHabis ? 'Buka' : 'Habis'}</button>
-                            <button onclick="hapusMenu(${m.id})" class="text-red-500 hover:bg-red-50 w-8 h-8 rounded transition flex items-center justify-center"><i class="fa-solid fa-trash"></i></button>
+                            <button onclick="toggleMenuStatus(${m.id}, '${m.status || 'Tersedia'}')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${isHabis ? 'bg-emerald-600 text-white' : 'bg-amber-600 text-white'}">${isHabis ? 'Buka' : 'Habis'}</button>
+                            <button onclick="hapusMenu(${m.id})" class="text-rose-400 hover:bg-rose-500/20 w-8 h-8 rounded-xl transition flex items-center justify-center"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
                 `;
