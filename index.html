@@ -17,23 +17,14 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Styling khusus cetak struk kasir thermal & QR Meja */
         @media print {
             body * { visibility: hidden; }
             #qr-result-container, #qr-result-container *, #thermal-receipt-modal, #thermal-receipt-modal * { visibility: visible; }
             #qr-result-container { position: absolute; left: 50%; top: 20px; transform: translateX(-50%); width: 300px; border: none !important; background: transparent !important; }
             #btn-print-qr { display: none !important; }
             #thermal-receipt-modal { 
-                position: absolute; 
-                left: 0; 
-                top: 0; 
-                width: 100%; 
-                margin: 0; 
-                padding: 10px; 
-                background: white !important; 
-                color: black !important;
-                border: none !important;
-                box-shadow: none !important;
+                position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 10px; 
+                background: white !important; color: black !important; border: none !important; box-shadow: none !important;
             }
             .no-print { display: none !important; }
         }
@@ -83,7 +74,7 @@
             <div id="customer-menu-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6"></div>
         </main>
 
-        <div id="cart-bar" class="fixed bottom-6 left-4 right-4 sm:left-auto sm:right-8 sm:w-[420px] bg-cardbg/95 backdrop-blur-xl border border-gray-700/80 p-4 rounded-3xl shadow-2xl shadow-black/80 hidden flex justify-between items-center z-40 transform translate-y-0 transition-all">
+        <div id="cart-bar" class="fixed bottom-6 left-4 right-4 sm:left-auto sm:right-8 sm:w-[420px] bg-cardbg/95 backdrop-blur-xl border border-gray-700/80 p-4 rounded-3xl shadow-2xl shadow-black/80 hidden flex justify-between items-center z-40">
             <div class="flex items-center space-x-3.5">
                 <div class="w-12 h-12 bg-gradient-to-tr from-rose-600 to-amber-500 rounded-2xl flex items-center justify-center relative shadow-lg shadow-rose-600/40">
                     <i class="fa-solid fa-basket-shopping text-white text-lg"></i>
@@ -163,7 +154,7 @@
                 </div>
 
                 <!-- Section: Dapur & Pesanan -->
-                <div id="admin-orders-section">
+                <div id="admin-orders-section" class="admin-section">
                     <div class="flex items-center space-x-2 mb-4 bg-cardbg p-2 rounded-xl border border-gray-800 shadow-xl w-fit">
                         <button onclick="filterOrder('Pending')" id="ord-btn-Pending" class="px-4 py-2 rounded-lg text-xs font-black bg-rose-600 text-white shadow">Masuk & Dimasak</button>
                         <button onclick="filterOrder('Selesai')" id="ord-btn-Selesai" class="px-4 py-2 rounded-lg text-xs font-bold text-gray-400 hover:text-white">Riwayat Selesai</button>
@@ -173,7 +164,7 @@
                 </div>
 
                 <!-- Section: Kasir Walk-In -->
-                <div id="admin-cashier-section" class="hidden space-y-6">
+                <div id="admin-cashier-section" class="admin-section hidden space-y-6">
                     <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800">
                         <h3 class="font-bold text-white mb-4 border-b border-gray-800 pb-3">Buat Pesanan Manual (Kasir Walk-in)</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -199,7 +190,7 @@
                 </div>
 
                 <!-- Section: Kelola Menu & Stok -->
-                <div id="admin-menus-section" class="hidden space-y-6">
+                <div id="admin-menus-section" class="admin-section hidden space-y-6">
                     <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800">
                         <h3 class="font-bold text-white mb-4 border-b border-gray-800 pb-3">Tambah Menu Baru</h3>
                         <form id="form-add-menu" onsubmit="tambahMenuBaru(event)" class="flex flex-col md:flex-row gap-6">
@@ -242,7 +233,7 @@
                 </div>
 
                 <!-- Section: Keuangan & Pengeluaran -->
-                <div id="admin-finance-section" class="hidden space-y-6">
+                <div id="admin-finance-section" class="admin-section hidden space-y-6">
                     <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-gray-800 pb-4 gap-3">
                             <h3 class="font-bold text-white">Rekap Laporan & Keuangan Bisnis</h3>
@@ -281,7 +272,7 @@
                 </div>
 
                 <!-- Section: Pengaturan Promo Diskon -->
-                <div id="admin-promo-section" class="hidden space-y-6">
+                <div id="admin-promo-section" class="admin-section hidden space-y-6">
                     <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800 max-w-md">
                         <h3 class="font-bold text-white mb-2 border-b border-gray-800 pb-3">Pengaturan Diskon Toko (%)</h3>
                         <p class="text-xs text-gray-400 mb-4">Berikan diskon otomatis yang langsung memotong total tagihan pelanggan saat checkout.</p>
@@ -294,18 +285,21 @@
                 </div>
 
                 <!-- Section: Cetak QR -->
-                <div id="admin-qr-section" class="hidden">
+                <div id="admin-qr-section" class="admin-section hidden">
                     <div class="bg-cardbg p-6 rounded-2xl shadow-xl border border-gray-800 max-w-sm">
-                        <h3 class="font-black text-white mb-2 border-b border-gray-800 pb-3">Buat QR Code Meja</h3>
-                        <label class="block text-xs font-bold text-gray-300 mb-1 mt-3">Ketik Nomor Meja</label>
+                        <h3 class="font-black text-white mb-2 border-b border-gray-800 pb-3">QR Code Meja Permanen</h3>
+                        <label class="block text-xs font-bold text-gray-300 mb-1 mt-3">Nomor Meja</label>
                         <div class="flex space-x-2 mb-4">
                             <input type="text" id="input-no-meja" placeholder="Cth: 01" class="w-full bg-darkbg border border-gray-700 text-white p-3 rounded-xl text-center font-bold outline-none focus:border-rose-500">
-                            <button onclick="buatQR()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-5 py-3 rounded-xl transition">Buat</button>
+                            <button onclick="buatQR()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-5 py-3 rounded-xl transition">Generate</button>
                         </div>
                         <div id="qr-result-container" class="hidden flex-col items-center border-2 border-dashed border-gray-700 p-4 rounded-2xl bg-darkbg">
                             <h1 id="qr-meja-title" class="text-xl font-black mb-3 uppercase text-white tracking-widest">Meja --</h1>
                             <div id="qrcode-box" class="p-3 bg-white rounded-xl shadow-xl mb-4"></div>
-                            <button id="btn-print-qr" onclick="window.print()" class="w-full bg-rose-600 text-white font-bold py-2.5 rounded-xl text-sm shadow-sm"><i class="fa-solid fa-print mr-2"></i>Cetak QR Ini</button>
+                            <div class="flex space-x-2 w-full">
+                                <button id="btn-print-qr" onclick="window.print()" class="flex-1 bg-rose-600 text-white font-bold py-2.5 rounded-xl text-sm shadow-sm"><i class="fa-solid fa-print mr-1"></i>Cetak</button>
+                                <button onclick="hapusQR()" class="bg-gray-800 hover:bg-rose-900/50 text-gray-300 px-3 py-2.5 rounded-xl text-xs font-bold transition"><i class="fa-solid fa-trash"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -379,7 +373,8 @@
             const mejaParam = urlParams.get('meja');
 
             globalDiskon = parseInt(localStorage.getItem('bakar_diskon') || '0');
-            document.getElementById('input-diskon-val').value = globalDiskon;
+            let savedDiskonInput = document.getElementById('input-diskon-val');
+            if(savedDiskonInput) savedDiskonInput.value = globalDiskon;
 
             if (mode === 'admin') {
                 document.getElementById('view-admin').classList.remove('hidden');
@@ -413,8 +408,10 @@
         }
 
         function updateMejaDisplay() {
-            document.getElementById('display-meja').innerText = currentMeja;
-            document.getElementById('modal-meja-text').innerText = currentMeja;
+            let disp = document.getElementById('display-meja');
+            let mod = document.getElementById('modal-meja-text');
+            if(disp) disp.innerText = currentMeja;
+            if(mod) mod.innerText = currentMeja;
         }
 
         function toggleSidebar() {
@@ -430,8 +427,10 @@
 
         function switchAdminTab(tab) {
             ['orders', 'cashier', 'menus', 'finance', 'promo', 'qr'].forEach(t => {
-                document.getElementById(`tab-${t}`).className = "w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-800 hover:text-white transition";
-                document.getElementById(`admin-${t}-section`).classList.add('hidden');
+                let tabBtn = document.getElementById(`tab-${t}`);
+                let sec = document.getElementById(`admin-${t}-section`);
+                if(tabBtn) tabBtn.className = "w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-800 hover:text-white transition";
+                if(sec) sec.classList.add('hidden');
             });
             document.getElementById(`tab-${tab}`).className = "w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-xl bg-rose-600 text-white shadow-lg shadow-rose-600/30 transition";
             document.getElementById(`admin-${tab}-section`).classList.remove('hidden');
@@ -475,7 +474,9 @@
         function setupRealtimeSubscription() {
             supabaseClient.channel('public:orders').on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, payload => {
                 fetchOrders();
-                if(payload.new && payload.new.status === 'Pending') playNotificationSound();
+                if(payload.eventType === 'INSERT' && payload.new && payload.new.status === 'Pending') {
+                    playNotificationSound();
+                }
             }).subscribe();
         }
 
@@ -543,17 +544,14 @@
                                 ${!isHabis ? `
                                 <div class="space-y-2.5 mt-auto pt-2 border-t border-gray-800">
                                     <div class="relative">
-                                        <select onchange="updateLevel(${m.id}, this.value)" class="w-full bg-darkbg border border-gray-700 text-[11px] font-bold text-gray-300 py-2 px-3 rounded-xl outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 appearance-none cursor-pointer">
+                                        <select onchange="updateLevel(${m.id}, this.value)" class="w-full bg-darkbg border border-gray-700 text-[11px] font-bold text-gray-300 py-2 px-3 rounded-xl outline-none focus:border-rose-500 appearance-none cursor-pointer">
                                             <option value="Tidak Pedas" ${level === 'Tidak Pedas' ? 'selected' : ''}>✨ Ori / Tidak Pedas</option>
                                             <option value="Pedas Sedang" ${level === 'Pedas Sedang' ? 'selected' : ''}>🌶️ Pedas Sedang</option>
                                             <option value="Pedas Gila" ${level === 'Pedas Gila' ? 'selected' : ''}>🔥 Pedas Gila</option>
                                         </select>
-                                        <div class="absolute inset-y-0 right-0 flex items-center px-2.5 pointer-events-none text-gray-400 text-[10px]">
-                                            <i class="fa-solid fa-chevron-down"></i>
-                                        </div>
                                     </div>
                                     ${qty === 0 ? `
-                                        <button onclick="ubahQty(${m.id}, 1)" class="w-full bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-black py-2.5 rounded-xl text-xs shadow-md shadow-rose-600/30 transition transform active:scale-95 flex items-center justify-center space-x-1.5">
+                                        <button onclick="ubahQty(${m.id}, 1)" class="w-full bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-black py-2.5 rounded-xl text-xs shadow-md transition transform active:scale-95 flex items-center justify-center space-x-1.5">
                                             <i class="fa-solid fa-plus text-[10px]"></i> <span>Pesan Menu</span>
                                         </button>
                                     ` : `
@@ -644,9 +642,7 @@
                     if(m) { items.push({ name: m.name, qty: cart[id].qty, note: cart[id].level }); total += m.price * cart[id].qty; }
                 });
 
-                if(globalDiskon > 0) {
-                    total -= (total * globalDiskon) / 100;
-                }
+                if(globalDiskon > 0) total -= (total * globalDiskon) / 100;
 
                 let newOrder = {
                     id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
@@ -772,10 +768,11 @@
                                 </div>
                             </div>
                             <div class="flex space-x-2 pt-3 border-t border-gray-800">
-                                <button onclick="cetakStruk('${o.id}')" class="bg-gray-800 hover:bg-gray-700 text-rose-400 hover:text-white px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1"><i class="fa-solid fa-receipt"></i> <span>Struk</span></button>
+                                <button onclick="cetakStruk('${o.id}')" class="bg-gray-800 hover:bg-gray-700 text-rose-400 hover:text-white px-3 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1"><i class="fa-solid fa-receipt"></i><span>Struk</span></button>
                                 ${o.status === 'Selesai' ? `<button class="flex-1 bg-emerald-500/20 text-emerald-400 py-2 rounded-xl text-xs font-bold border border-emerald-500/30" disabled><i class="fa-solid fa-check mr-1"></i>Selesai</button>` : `
                                 <button onclick="ubahStatusOrder('${o.id}', 'Diproses')" class="flex-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 border border-blue-500/30 py-2 rounded-xl text-xs font-bold transition">Proses</button>
                                 <button onclick="ubahStatusOrder('${o.id}', 'Selesai')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-xl text-xs font-bold transition">Selesai</button>`}
+                                <button onclick="hapusOrder('${o.id}')" class="bg-gray-800 hover:bg-rose-900/50 text-gray-400 hover:text-rose-400 px-3 py-2 rounded-xl text-xs transition" title="Hapus Order"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </div>
                     `;
@@ -784,7 +781,14 @@
             document.getElementById('admin-order-list').innerHTML = html;
         }
 
-        // Fungsi Cetak Struk Kasir Thermal (Estetik & Rapi)
+        async function hapusOrder(id) {
+            if(confirm(`Yakin ingin menghapus riwayat pesanan ${id}?`)) {
+                let { error } = await supabaseClient.from('orders').delete().eq('id', id);
+                if(!error) fetchOrders();
+                else alert('Gagal menghapus: ' + error.message);
+            }
+        }
+
         function cetakStruk(orderId) {
             let o = orders.find(x => x.id === orderId);
             if(!o) return;
@@ -792,12 +796,7 @@
             let itemsHtml = '';
             if(Array.isArray(o.items)) {
                 o.items.forEach(i => {
-                    itemsHtml += `
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                            <span>${i.qty}x ${i.name}</span>
-                            <span>(${i.note})</span>
-                        </div>
-                    `;
+                    itemsHtml += `<div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>${i.qty}x ${i.name}</span><span>(${i.note})</span></div>`;
                 });
             }
 
@@ -832,7 +831,6 @@
 
                     <div style="text-align: center; border-top: 1px dashed #000; font-size: 10px; margin-top: 10px; padding-top: 8px;">
                         <p style="margin: 0;">Terima Kasih Atas Kunjungan Anda!</p>
-                        <p style="margin: 2px 0;">"Sensasi Bakso Bakar Jumbo Terlezat"</p>
                     </div>
 
                     <div class="no-print" style="margin-top: 15px; display: flex; gap: 5px;">
@@ -841,7 +839,6 @@
                     </div>
                 </div>
             `;
-
             document.body.insertAdjacentHTML('beforeend', receiptHtml);
         }
 
@@ -868,11 +865,8 @@
             ['hari', 'minggu', 'bulan', 'semua'].forEach(f => {
                 let btn = document.getElementById(`fin-btn-${f}`);
                 if(btn) {
-                    if(f === filter) {
-                        btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-rose-600 text-white shadow";
-                    } else {
-                        btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg text-gray-400 hover:text-white";
-                    }
+                    if(f === filter) btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-rose-600 text-white shadow";
+                    else btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg text-gray-400 hover:text-white";
                 }
             });
             renderFinanceReport();
@@ -884,31 +878,18 @@
                 if(o.status !== 'Selesai') return false;
                 if(!o.created_at) return true;
                 let orderDate = new Date(o.created_at);
-                if(currentFinanceFilter === 'hari') {
-                    return orderDate.toDateString() === now.toDateString();
-                } else if(currentFinanceFilter === 'minggu') {
-                    let diffTime = Math.abs(now - orderDate);
-                    let diffDays = diffTime / (1000 * 60 * 60 * 24);
-                    return diffDays <= 7;
-                } else if(currentFinanceFilter === 'bulan') {
-                    return orderDate.getMonth() === now.getMonth() && orderDate.getFullYear() === now.getFullYear();
-                }
+                if(currentFinanceFilter === 'hari') return orderDate.toDateString() === now.toDateString();
+                if(currentFinanceFilter === 'minggu') return (Math.abs(now - orderDate) / (1000 * 60 * 60 * 24)) <= 7;
+                if(currentFinanceFilter === 'bulan') return orderDate.getMonth() === now.getMonth() && orderDate.getFullYear() === now.getFullYear();
                 return true;
             });
 
             let filteredExpenses = expenses.filter(e => {
                 if(!e.created_at) return true;
                 let expDate = new Date(e.created_at);
-                let now = new Date();
-                if(currentFinanceFilter === 'hari') {
-                    return expDate.toDateString() === now.toDateString();
-                } else if(currentFinanceFilter === 'minggu') {
-                    let diffTime = Math.abs(now - expDate);
-                    let diffDays = diffTime / (1000 * 60 * 60 * 24);
-                    return diffDays <= 7;
-                } else if(currentFinanceFilter === 'bulan') {
-                    return expDate.getMonth() === now.getMonth() && expDate.getFullYear() === now.getFullYear();
-                }
+                if(currentFinanceFilter === 'hari') return expDate.toDateString() === now.toDateString();
+                if(currentFinanceFilter === 'minggu') return (Math.abs(now - expDate) / (1000 * 60 * 60 * 24)) <= 7;
+                if(currentFinanceFilter === 'bulan') return expDate.getMonth() === now.getMonth() && expDate.getFullYear() === now.getFullYear();
                 return true;
             });
 
@@ -922,20 +903,13 @@
 
             let productCounts = {};
             filteredOrders.forEach(o => {
-                if(Array.isArray(o.items)) {
-                    o.items.forEach(i => {
-                        productCounts[i.name] = (productCounts[i.name] || 0) + i.qty;
-                    });
-                }
+                if(Array.isArray(o.items)) o.items.forEach(i => { productCounts[i.name] = (productCounts[i.name] || 0) + i.qty; });
             });
 
             let sortedProducts = Object.keys(productCounts).map(name => ({ name, qty: productCounts[name] })).sort((a,b) => b.qty - a.qty);
             let prodHtml = '';
             sortedProducts.slice(0, 4).forEach((p, idx) => {
-                prodHtml += `<div class="bg-darkbg p-3 rounded-xl border border-gray-800 flex justify-between items-center text-xs">
-                    <span class="font-bold text-white">#${idx+1} ${p.name}</span>
-                    <span class="font-black text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-lg">${p.qty} Terjual</span>
-                </div>`;
+                prodHtml += `<div class="bg-darkbg p-3 rounded-xl border border-gray-800 flex justify-between items-center text-xs"><span class="font-bold text-white">#${idx+1} ${p.name}</span><span class="font-black text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-lg">${p.qty} Terjual</span></div>`;
             });
             document.getElementById('top-products-list').innerHTML = prodHtml || '<p class="text-xs text-gray-500">Belum ada data penjualan pada periode ini.</p>';
         }
@@ -960,10 +934,7 @@
         function renderExpensesList() {
             let html = '';
             expenses.forEach(e => {
-                html += `<div class="flex justify-between items-center text-xs bg-darkbg p-3 rounded-xl border border-gray-800">
-                    <span class="font-bold text-white">${e.keterangan}</span>
-                    <span class="font-black text-rose-500">Rp ${(e.nominal || 0).toLocaleString()}</span>
-                </div>`;
+                html += `<div class="flex justify-between items-center text-xs bg-darkbg p-3 rounded-xl border border-gray-800"><span class="font-bold text-white">${e.keterangan}</span><span class="font-black text-rose-500">Rp ${(e.nominal || 0).toLocaleString()}</span></div>`;
             });
             document.getElementById('expense-list').innerHTML = html || '<p class="text-xs text-gray-500">Belum ada catatan pengeluaran.</p>';
         }
@@ -1037,12 +1008,19 @@
         function buatQR() {
             let noMeja = document.getElementById('input-no-meja').value.trim();
             if(!noMeja) return alert('Isi nomor meja!');
-            let finalUrl = window.location.origin + window.location.pathname + '?meja=' + encodeURIComponent(noMeja);
+            let cleanUrl = window.location.origin + window.location.pathname.split('?')[0];
+            let finalUrl = cleanUrl + '?meja=' + encodeURIComponent(noMeja);
+            
             document.getElementById('qr-result-container').classList.remove('hidden');
             document.getElementById('qr-result-container').classList.add('flex');
             document.getElementById('qr-meja-title').innerText = 'MEJA ' + noMeja;
             document.getElementById('qrcode-box').innerHTML = '';
-            new QRCode(document.getElementById('qrcode-box'), { text: finalUrl, width: 200, height: 200, colorDark : "#1f2937", colorLight : "#ffffff" });
+            new QRCode(document.getElementById('qrcode-box'), { text: finalUrl, width: 180, height: 180, colorDark : "#1f2937", colorLight : "#ffffff" });
+        }
+
+        function hapusQR() {
+            document.getElementById('qr-result-container').classList.add('hidden');
+            document.getElementById('input-no-meja').value = '';
         }
 
         function playNotificationSound() {
