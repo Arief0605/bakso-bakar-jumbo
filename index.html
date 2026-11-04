@@ -117,7 +117,7 @@
             <!-- Konten Utama Admin -->
             <main class="flex-1">
                 
-                <!-- Statistik Dashboard Pro (Omzet, Expense, Profit Bersih, Total Order) -->
+                <!-- Statistik Dashboard Pro -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                         <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Omzet Kotor</p>
@@ -132,8 +132,8 @@
                         <h3 class="text-lg font-black text-blue-600" id="stat-net-profit">Rp 0</h3>
                     </div>
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                        <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Antrean Dapur</p>
-                        <h3 class="text-lg font-black text-amber-600" id="stat-pending">0</h3>
+                        <p class="text-[11px] text-gray-500 font-bold uppercase mb-1">Total Order / Antrean</p>
+                        <h3 class="text-lg font-black text-amber-600"><span id="stat-total-order">0</span> <span class="text-xs text-gray-400 font-normal">/ <span id="stat-pending">0</span> antrean</span></h3>
                     </div>
                 </div>
 
@@ -216,17 +216,49 @@
                     <div id="admin-menu-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
                 </div>
 
-                <!-- Section: Keuangan & Pengeluaran -->
+                <!-- Section: Keuangan, Rekap & Pengeluaran (BARU & DIPERBAIKI) -->
                 <div id="admin-finance-section" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                        <h3 class="font-bold text-gray-900 mb-4 border-b pb-2">Catat Pengeluaran Operasional / Modal</h3>
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 border-b pb-3 gap-3">
+                            <h3 class="font-bold text-gray-900">Rekap Laporan & Keuangan Bisnis</h3>
+                            <div class="flex items-center space-x-1 bg-gray-100 p-1 rounded-lg">
+                                <button onclick="setFinanceFilter('hari')" id="fin-btn-hari" class="px-3 py-1 text-xs font-bold rounded-md bg-white text-gray-800 shadow-sm">Hari Ini</button>
+                                <button onclick="setFinanceFilter('minggu')" id="fin-btn-minggu" class="px-3 py-1 text-xs font-bold rounded-md text-gray-600 hover:text-gray-900">7 Hari</button>
+                                <button onclick="setFinanceFilter('bulan')" id="fin-btn-bulan" class="px-3 py-1 text-xs font-bold rounded-md text-gray-600 hover:text-gray-900">Bulan Ini</button>
+                                <button onclick="setFinanceFilter('semua')" id="fin-btn-semua" class="px-3 py-1 text-xs font-bold rounded-md text-gray-600 hover:text-gray-900">Semua</button>
+                            </div>
+                        </div>
+
+                        <!-- Ringkasan Periode Terpilih -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                            <div>
+                                <p class="text-xs text-gray-500 font-bold uppercase">Omzet Periode Ini</p>
+                                <p class="text-xl font-black text-emerald-600" id="report-omzet">Rp 0</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 font-bold uppercase">Pengeluaran Periode Ini</p>
+                                <p class="text-xl font-black text-rose-600" id="report-expense">Rp 0</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 font-bold uppercase">Laba Bersih Periode Ini</p>
+                                <p class="text-xl font-black text-blue-600" id="report-profit">Rp 0</p>
+                            </div>
+                        </div>
+
+                        <!-- Form Catat Pengeluaran -->
+                        <h4 class="font-bold text-xs text-gray-700 uppercase mb-2">Tambah Catat Pengeluaran / Modal</h4>
                         <form onsubmit="tambahPengeluaran(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
                             <input type="text" id="exp-ket" placeholder="Keterangan (Cth: Beli Tusuk Sate)" required class="bg-gray-50 border border-gray-200 p-2.5 rounded-lg text-sm outline-none">
                             <input type="number" id="exp-nominal" placeholder="Nominal (Cth: 50000)" required class="bg-gray-50 border border-gray-200 p-2.5 rounded-lg text-sm outline-none">
                             <button type="submit" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 rounded-lg text-sm transition">Catat Pengeluaran</button>
                         </form>
-                        <h4 class="font-bold text-xs text-gray-500 uppercase mb-2">Riwayat Pengeluaran</h4>
-                        <div id="expense-list" class="space-y-2"></div>
+
+                        <h4 class="font-bold text-xs text-gray-700 uppercase mb-2">Riwayat Pengeluaran</h4>
+                        <div id="expense-list" class="space-y-2 mb-6"></div>
+
+                        <!-- Ringkasan Menu Terlaris -->
+                        <h4 class="font-bold text-xs text-gray-700 uppercase mb-2">Menu Paling Laris Terjual</h4>
+                        <div id="top-products-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
                     </div>
                 </div>
 
@@ -322,6 +354,7 @@
         let currentFilter = 'Pending';
         let activeKategoriPelanggan = 'Semua';
         let cashierCart = {};
+        let currentFinanceFilter = 'hari';
 
         window.onload = async function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -366,7 +399,7 @@
             document.getElementById(`tab-${tab}`).className = "w-full flex items-center space-x-3 px-4 py-3 text-sm font-bold rounded-lg bg-rose-50 text-rose-700 transition";
             document.getElementById(`admin-${tab}-section`).classList.remove('hidden');
             if(tab === 'cashier') renderCashierMenu();
-            if(tab === 'finance') renderExpensesList();
+            if(tab === 'finance') { renderExpensesList(); renderFinanceReport(); }
             if(window.innerWidth < 768) document.getElementById('admin-sidebar').classList.add('hidden');
         }
 
@@ -388,6 +421,7 @@
                 orders = data || [];
                 renderAdminOrders();
                 hitungStatistikAdmin();
+                renderFinanceReport();
             }
         }
 
@@ -397,6 +431,7 @@
                 expenses = data || [];
                 renderExpensesList();
                 hitungStatistikAdmin();
+                renderFinanceReport();
             }
         }
 
@@ -688,6 +723,82 @@
             document.getElementById('stat-omzet').innerText = `Rp ${omzet.toLocaleString()}`;
             document.getElementById('stat-expense').innerText = `Rp ${totalExpense.toLocaleString()}`;
             document.getElementById('stat-net-profit').innerText = `Rp ${netProfit.toLocaleString()}`;
+        }
+
+        function setFinanceFilter(filter) {
+            currentFinanceFilter = filter;
+            ['hari', 'minggu', 'bulan', 'semua'].forEach(f => {
+                let btn = document.getElementById(`fin-btn-${f}`);
+                if(f === filter) {
+                    btn.className = "px-3 py-1 text-xs font-bold rounded-md bg-white text-gray-800 shadow-sm";
+                } else {
+                    btn.className = "px-3 py-1 text-xs font-bold rounded-md text-gray-600 hover:text-gray-900";
+                }
+            });
+            renderFinanceReport();
+        }
+
+        function renderFinanceReport() {
+            let now = new Date();
+            let filteredOrders = orders.filter(o => {
+                if(o.status !== 'Selesai') return false;
+                if(!o.created_at) return true;
+                let orderDate = new Date(o.created_at);
+                if(currentFinanceFilter === 'hari') {
+                    return orderDate.toDateString() === now.toDateString();
+                } else if(currentFinanceFilter === 'minggu') {
+                    let diffTime = Math.abs(now - orderDate);
+                    let diffDays = diffTime / (1000 * 60 * 60 * 24);
+                    return diffDays <= 7;
+                } else if(currentFinanceFilter === 'bulan') {
+                    return orderDate.getMonth() === now.getMonth() && orderDate.getFullYear() === now.getFullYear();
+                }
+                return true;
+            });
+
+            let filteredExpenses = expenses.filter(e => {
+                if(!e.created_at) return true;
+                let expDate = new Date(e.created_at);
+                let now = new Date();
+                if(currentFinanceFilter === 'hari') {
+                    return expDate.toDateString() === now.toDateString();
+                } else if(currentFinanceFilter === 'minggu') {
+                    let diffTime = Math.abs(now - expDate);
+                    let diffDays = diffTime / (1000 * 60 * 60 * 24);
+                    return diffDays <= 7;
+                } else if(currentFinanceFilter === 'bulan') {
+                    return expDate.getMonth() === now.getMonth() && expDate.getFullYear() === now.getFullYear();
+                }
+                return true;
+            });
+
+            let omzet = filteredOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+            let totalExp = filteredExpenses.reduce((sum, e) => sum + (e.nominal || 0), 0);
+            let profit = omzet - totalExp;
+
+            document.getElementById('report-omzet').innerText = `Rp ${omzet.toLocaleString()}`;
+            document.getElementById('report-expense').innerText = `Rp ${totalExp.toLocaleString()}`;
+            document.getElementById('report-profit').innerText = `Rp ${profit.toLocaleString()}`;
+
+            // Kalkulasi Menu Terlaris
+            let productCounts = {};
+            filteredOrders.forEach(o => {
+                if(Array.isArray(o.items)) {
+                    o.items.forEach(i => {
+                        productCounts[i.name] = (productCounts[i.name] || 0) + i.qty;
+                    });
+                }
+            });
+
+            let sortedProducts = Object.keys(productCounts).map(name => ({ name, qty: productCounts[name] })).sort((a,b) => b.qty - a.qty);
+            let prodHtml = '';
+            sortedProducts.slice(0, 4).forEach((p, idx) => {
+                prodHtml += `<div class="bg-gray-50 p-2.5 rounded-lg border flex justify-between items-center text-xs">
+                    <span class="font-bold text-gray-800">#${idx+1} ${p.name}</span>
+                    <span class="font-black text-rose-600 bg-rose-50 px-2 py-1 rounded">${p.qty} Terjual</span>
+                </div>`;
+            });
+            document.getElementById('top-products-list').innerHTML = prodHtml || '<p class="text-xs text-gray-400">Belum ada data penjualan pada periode ini.</p>';
         }
 
         async function ubahStatusOrder(id, status) {
